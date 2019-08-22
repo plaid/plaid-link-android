@@ -1,0 +1,11 @@
+<resources>
+  <string name="app_name">Link Sample</string>
+  <string name="title_activity_main">MainActivity</string>
+  <string name="title_activity_main_java">MainJavaActivity</string>
+  <string name="content_success">Public Token:\n%1$s\n\n Account Id:\n%2$s\n\n Account Name:\n%3$s\n\n Institution Id:\n%4$s\n\n Institution Name:\n%5$s</string>
+  <string name="content_cancelled">Institution Id:\n%1$s\n\n Institution Name:\n%2$s\n\n Link Session Id:\n%3$s\n\n Status:\n%4$s</string>
+  <string name="content_exit">Display Message:\n%1$s\n\n Error Code:\n%2$s\n\n Error Message:\n%3$s\n\n Institution Id:\n%4$s\n\n Institution Name:\n%5$s\n\n Status:\n%6$s</string>
+  <string name="content_exception">Exception Class:\n%1$s\n\n Exception Message:\n%2$s</string>
+  <string name="show_java">Show Java</string>
+  <string name="show_kotlin">Show Kotlin</string>
+</resources>
