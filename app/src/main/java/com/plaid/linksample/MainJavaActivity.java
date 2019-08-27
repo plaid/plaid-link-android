@@ -2,6 +2,7 @@ package com.plaid.linksample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,8 +62,8 @@ public class MainJavaActivity extends AppCompatActivity {
           contentTextView.setText(getString(
               R.string.content_success,
               item.getPublicToken(),
-              metadata.getAccountId(),
-              metadata.getAccountName(),
+              metadata.getAccounts().get(0).getAccountId(),
+              metadata.getAccounts().get(0).getAccountId(),
               metadata.getInstitutionId(),
               metadata.getInstitutionName()));
         }
@@ -84,9 +85,9 @@ public class MainJavaActivity extends AppCompatActivity {
               error.getDisplayMessage(),
               error.getErrorCode(),
               error.getErrorMessage(),
-              error.getInstitutionId(),
-              error.getInstitutionName(),
-              error.getStatus()));
+              error.getLinkExitMetadata().getInstitutionId(),
+              error.getLinkExitMetadata().getInstitutionName(),
+              error.getLinkExitMetadata().getStatus()));
         }
       } else if (resultCode == Plaid.RESULT_EXCEPTION) {
         Exception exception = (Exception) data.getSerializableExtra(Plaid.LINK_RESULT);
@@ -97,6 +98,8 @@ public class MainJavaActivity extends AppCompatActivity {
               exception.getMessage()));
         }
       }
+    } else {
+      Log.i(this.getClass().getSimpleName(), "Not handled");
     }
   }
 
