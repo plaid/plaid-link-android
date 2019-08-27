@@ -2,6 +2,7 @@ package com.plaid.linksample
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -9,10 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.plaid.link.LinkActivity
 import com.plaid.link.Plaid
-import com.plaid.linkbase.models.LinkCancellation
 import com.plaid.linkbase.models.LinkConfiguration
-import com.plaid.linkbase.models.LinkConnection
-import com.plaid.linkbase.models.PlaidApiError
+import com.plaid.linkbase.models.PlaidLinkActivityResultHandler
 import com.plaid.linkbase.models.PlaidProduct
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
@@ -21,6 +20,47 @@ class MainActivity : AppCompatActivity() {
   companion object {
     const val LINK_REQUEST_CODE = 1
   }
+
+  private val myPlaidLinkActivityResultHandler = PlaidLinkActivityResultHandler(
+    requestCode = LINK_REQUEST_CODE,
+    onSuccess = {
+      contentTextView.text = getString(
+        R.string.content_success,
+        it.publicToken,
+        it.linkConnectionMetadata.accounts[0].accountId,
+        it.linkConnectionMetadata.accounts[0].accountName,
+        it.linkConnectionMetadata.institutionId,
+        it.linkConnectionMetadata.institutionName
+      )
+    },
+    onCancelled = {
+      contentTextView.text = getString(
+        R.string.content_cancelled,
+        it.institutionId,
+        it.institutionName,
+        it.linkSessionId,
+        it.status
+      )
+    },
+    onExit = {
+      contentTextView.text = getString(
+        R.string.content_exit,
+        it.displayMessage,
+        it.errorCode,
+        it.errorMessage,
+        it.linkExitMetadata.institutionId,
+        it.linkExitMetadata.institutionName,
+        it.linkExitMetadata.status
+      )
+    },
+    onException = {
+      contentTextView.text = getString(
+        R.string.content_exception,
+        it.javaClass.toString(),
+        it.message
+      )
+    }
+  )
 
   private lateinit var contentTextView: TextView
 
@@ -44,51 +84,11 @@ class MainActivity : AppCompatActivity() {
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, intent)
-    if (requestCode == LINK_REQUEST_CODE) {
-      when (resultCode) {
-        Plaid.RESULT_SUCCESS ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as LinkConnection).let {
-            contentTextView.text = getString(
-              R.string.content_success,
-              it.publicToken,
-              it.linkConnectionMetadata.accountId,
-              it.linkConnectionMetadata.accountName,
-              it.linkConnectionMetadata.institutionId,
-              it.linkConnectionMetadata.institutionName
-            )
-          }
-        Plaid.RESULT_CANCELLED ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as LinkCancellation).let {
-            contentTextView.text = getString(
-              R.string.content_cancelled,
-              it.institutionId,
-              it.institutionName,
-              it.linkSessionId,
-              it.status
-            )
-          }
-        Plaid.RESULT_EXIT ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as PlaidApiError).let {
-            contentTextView.text = getString(
-              R.string.content_exit,
-              it.displayMessage,
-              it.errorCode,
-              it.errorMessage,
-              it.institutionId,
-              it.institutionName,
-              it.status
-            )
-          }
-        Plaid.RESULT_EXCEPTION ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as java.lang.Exception).let {
-            contentTextView.text = getString(
-              R.string.content_exception,
-              it.javaClass.toString(),
-              it.message
-            )
-          }
-      }
+    super.onActivityResult(requestCode, resultCode, data)
+    if (myPlaidLinkActivityResultHandler.onActivityResult(requestCode, resultCode, data)) {
+      return
+    } else {
+      Log.i(MainActivity::class.java.simpleName, "Not handled")
     }
   }
 
