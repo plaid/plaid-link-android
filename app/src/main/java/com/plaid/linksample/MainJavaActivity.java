@@ -2,7 +2,6 @@ package com.plaid.linksample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.plaid.link.LinkActivity;
 import com.plaid.link.Plaid;
 import com.plaid.linkbase.models.LinkCancellation;
 import com.plaid.linkbase.models.LinkConfiguration;
@@ -40,13 +38,12 @@ public class MainJavaActivity extends AppCompatActivity {
 
     FloatingActionButton fab = findViewById(R.id.open_link_fab);
     fab.setOnClickListener(view -> {
-      Intent intent = new Intent(MainJavaActivity.this, LinkActivity.class);
       ArrayList<PlaidProduct> products = new ArrayList<>();
       products.add(PlaidProduct.TRANSACTIONS);
-      intent.putExtra(
-          Plaid.LINK_CONFIGURATION,
-          new LinkConfiguration.Builder("Test App", products).build());
-      startActivityForResult(intent, LINK_REQUEST_CODE);
+      Plaid.openLink(
+          MainJavaActivity.this,
+          new LinkConfiguration.Builder("Test App", products).build(),
+          LINK_REQUEST_CODE);
     });
   }
 
@@ -63,7 +60,7 @@ public class MainJavaActivity extends AppCompatActivity {
               R.string.content_success,
               item.getPublicToken(),
               metadata.getAccounts().get(0).getAccountId(),
-              metadata.getAccounts().get(0).getAccountId(),
+              metadata.getAccounts().get(0).getAccountName(),
               metadata.getInstitutionId(),
               metadata.getInstitutionName()));
         }
@@ -98,8 +95,6 @@ public class MainJavaActivity extends AppCompatActivity {
               exception.getMessage()));
         }
       }
-    } else {
-      Log.i(this.getClass().getSimpleName(), "Not handled");
     }
   }
 
