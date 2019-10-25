@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="plaid_public_key">TODO USE YOUR KEY HERE</string>
+  <string name="plaid_public_key">TODO ADD YOUR KEY HERE</string>
 </resources>
