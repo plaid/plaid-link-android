@@ -2,6 +2,7 @@ package com.plaid.linksample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,8 +17,11 @@ import com.plaid.linkbase.models.LinkCancellation;
 import com.plaid.linkbase.models.LinkConfiguration;
 import com.plaid.linkbase.models.LinkConnection;
 import com.plaid.linkbase.models.LinkConnectionMetadata;
+import com.plaid.linkbase.models.LinkEventListener;
 import com.plaid.linkbase.models.PlaidApiError;
 import com.plaid.linkbase.models.PlaidProduct;
+
+import kotlin.Unit;
 
 import java.util.ArrayList;
 
@@ -38,6 +42,10 @@ public class MainJavaActivity extends AppCompatActivity {
 
     FloatingActionButton fab = findViewById(R.id.open_link_fab);
     fab.setOnClickListener(view -> {
+      Plaid.setLinkEventListener(new LinkEventListener(it -> {
+        Log.i("Event", it.toString());
+        return Unit.INSTANCE;
+      }));
       ArrayList<PlaidProduct> products = new ArrayList<>();
       products.add(PlaidProduct.TRANSACTIONS);
       Plaid.openLink(

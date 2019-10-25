@@ -2,6 +2,7 @@ package com.plaid.linksample
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -11,6 +12,7 @@ import com.plaid.link.Plaid
 import com.plaid.linkbase.models.LinkCancellation
 import com.plaid.linkbase.models.LinkConfiguration
 import com.plaid.linkbase.models.LinkConnection
+import com.plaid.linkbase.models.LinkEventListener
 import com.plaid.linkbase.models.PlaidApiError
 import com.plaid.linkbase.models.PlaidProduct
 import kotlinx.android.synthetic.main.activity_main.toolbar
@@ -31,6 +33,9 @@ class MainActivity : AppCompatActivity() {
 
     val fab = findViewById<FloatingActionButton>(R.id.open_link_fab)
     fab.setOnClickListener {
+      Plaid.setLinkEventListener(linkEventListener = LinkEventListener {
+        Log.i("Event", it.toString())
+      })
       Plaid.openLink(
         this,
         LinkConfiguration(
