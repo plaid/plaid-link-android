@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         this,
         LinkConfiguration(
           clientName = "Test App",
-          products = listOf(PlaidProduct.TRANSACTIONS)
+          products = listOf(PlaidProduct.TRANSACTIONS),
+          webviewRedirectUri = "yourAppName://redirect"
         ),
         LINK_REQUEST_CODE
       )
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
     if (requestCode == LINK_REQUEST_CODE) {
       when (resultCode) {
         Plaid.RESULT_SUCCESS ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as LinkConnection).let {
+          (data?.getParcelableExtra(Plaid.LINK_RESULT) as LinkConnection).let {
             contentTextView.text = getString(
               R.string.content_success,
               it.publicToken,
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             )
           }
         Plaid.RESULT_CANCELLED ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as LinkCancellation).let {
+          (data?.getParcelableExtra(Plaid.LINK_RESULT) as LinkCancellation).let {
             contentTextView.text = getString(
               R.string.content_cancelled,
               it.institutionId,
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             )
           }
         Plaid.RESULT_EXIT ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as PlaidApiError).let {
+          (data?.getParcelableExtra(Plaid.LINK_RESULT) as PlaidApiError).let {
             contentTextView.text = getString(
               R.string.content_exit,
               it.displayMessage,

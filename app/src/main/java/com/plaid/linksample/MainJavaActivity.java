@@ -50,7 +50,7 @@ public class MainJavaActivity extends AppCompatActivity {
       products.add(PlaidProduct.TRANSACTIONS);
       Plaid.openLink(
           MainJavaActivity.this,
-          new LinkConfiguration.Builder("Test App", products).build(),
+          new LinkConfiguration.Builder("Test App", products, "yourAppName://redirect").build(),
           LINK_REQUEST_CODE);
     });
   }
@@ -61,7 +61,7 @@ public class MainJavaActivity extends AppCompatActivity {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == LINK_REQUEST_CODE && data != null) {
       if (resultCode == Plaid.RESULT_SUCCESS) {
-        LinkConnection item = (LinkConnection) data.getSerializableExtra(Plaid.LINK_RESULT);
+        LinkConnection item = data.getParcelableExtra(Plaid.LINK_RESULT);
         if (item != null) {
           LinkConnectionMetadata metadata = item.getLinkConnectionMetadata();
           contentTextView.setText(getString(
@@ -73,7 +73,7 @@ public class MainJavaActivity extends AppCompatActivity {
               metadata.getInstitutionName()));
         }
       } else if (resultCode == Plaid.RESULT_CANCELLED) {
-        LinkCancellation cancellation = (LinkCancellation) data.getSerializableExtra(Plaid.LINK_RESULT);
+        LinkCancellation cancellation = data.getParcelableExtra(Plaid.LINK_RESULT);
         if (cancellation != null) {
           contentTextView.setText(getString(
               R.string.content_cancelled,
@@ -83,7 +83,7 @@ public class MainJavaActivity extends AppCompatActivity {
               cancellation.getStatus()));
         }
       } else if (resultCode == Plaid.RESULT_EXIT) {
-        PlaidApiError error = (PlaidApiError) data.getSerializableExtra(Plaid.LINK_RESULT);
+        PlaidApiError error = data.getParcelableExtra(Plaid.LINK_RESULT);
         if (error != null) {
           contentTextView.setText(getString(
               R.string.content_exit,

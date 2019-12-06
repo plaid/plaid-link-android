@@ -32,10 +32,18 @@
 
     <activity android:name="com.plaid.link.LinkActivity" />
 
-    <!--<provider-->
-      <!--android:name="com.plaid.link.PlaidContentProvider"-->
-      <!--android:authorities="com.plaid.link.PlaidContentProvider"-->
-      <!--android:exported="true" />-->
+    <activity android:name="com.plaid.link.redirect.LinkRedirectActivity">
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+          android:host="redirect"
+          android:scheme="yourappname" />
+      </intent-filter>
+    </activity>
 
     <meta-data
       android:name="com.plaid.link.public_key"
