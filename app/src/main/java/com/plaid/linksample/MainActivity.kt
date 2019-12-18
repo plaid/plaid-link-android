@@ -37,13 +37,13 @@ class MainActivity : AppCompatActivity() {
         Log.i("Event", it.toString())
       })
       Plaid.openLink(
-        this,
-        LinkConfiguration(
+        activity = this,
+        linkConfiguration = LinkConfiguration(
           clientName = "Test App",
           products = listOf(PlaidProduct.TRANSACTIONS),
-          webviewRedirectUri = "yourAppName://redirect"
+          webviewRedirectUri = "myapp://plaid-redirect"
         ),
-        LINK_REQUEST_CODE
+        requestCode = LINK_REQUEST_CODE
       )
     }
   }
