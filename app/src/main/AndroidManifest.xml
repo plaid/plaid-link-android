@@ -31,7 +31,6 @@
       android:theme="@style/AppTheme.NoActionBar" />
 
     <activity android:name="com.plaid.link.LinkActivity" />
-
     <activity android:name="com.plaid.link.redirect.LinkRedirectActivity">
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
@@ -40,8 +39,8 @@
         <category android:name="android.intent.category.BROWSABLE" />
 
         <data
-          android:host="redirect"
-          android:scheme="yourappname" />
+          android:host="plaid-redirect"
+          android:scheme="myapp" />
       </intent-filter>
     </activity>
 
