@@ -14,7 +14,7 @@ A Plaid public_key; available from the Plaid Dashboard
 git clone https://github.com/plaid/plaid-link-android.git
 ```
 2. Open the repository with Android Studio (or IntelliJ)
-3. Add your plaid public key from the Plaid Dashboard to the donottranslate.xml file
+3. Add your plaid public key from the [Plaid Dashboard](https://dashboard.plaid.com/team/keys) to the donottranslate.xml file
 ``` xml
 <string name="plaid_public_key">TODO Add your key here</string>
 ```
