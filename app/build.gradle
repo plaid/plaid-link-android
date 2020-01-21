@@ -35,8 +35,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'com.plaid.link:sdk-core:0.3.1'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
