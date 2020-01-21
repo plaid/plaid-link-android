@@ -14,11 +14,12 @@ A Plaid public_key; available from the Plaid Dashboard
 git clone https://github.com/plaid/plaid-link-android.git
 ```
 2. Open the repository with Android Studio (or IntelliJ)
-3. Add your plaid public key from the Plaid Dashboard to the donottranslate.xml file
+3. Add your plaid public key from the [Plaid Dashboard](https://dashboard.plaid.com/team/keys) to the donottranslate.xml file
 ``` xml
-<string name="plaid_public_key">TODO Add your key here</string>
+<string name="plaid_public_key">TODO Add your public_key here</string>
 ```
-4. Build and run from Android Studio (green arrow or Run -> Run App) 
+4. [Follow the instrutions](https://plaid.com/docs/link/android/#register-redirect-uri) to register the `myapp://plaid-redirect` redirect Uri on the plaid dashboard.
+5. Build and run from Android Studio (green arrow or Run -> Run App) 
 
 ![](./docs/images/AndroidToolbarRun.png)
 
@@ -29,6 +30,28 @@ Or run from the command line
 ./gradlew installDebug
  adb shell am start -n "com.plaid.linksample/com.plaid.linksample.MainActivity" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER
 ```
+
+## Changing the redirect Uri
+To use a different redirect Uri, update the Android manifest:
+```xml
+<data
+    android:host="plaid-redirect"
+    android:scheme="myapp" />
+```
+
+the `LinkConfiguration` that is passed to the `Plaid.openLink()` method in the `MainActivity` and the `MainJavaActivity`:
+```kotlin 
+Plaid.openLink(
+    ...
+    linkConfiguration = LinkConfiguration(
+        ... 
+        webviewRedirectUri = "myapp://plaid-redirect"
+    )
+    ...
+)
+```
+
+and register the Uri in the [plaid dashboard](https://dashboard.plaid.com/team/api).
 
 # App Features
 The repository contains a java and kotlin application class and a java and kotlin activity.  From the kotlin activity you can open the java activity using the menu in the action bar and similarly from the java activity you can open the kotlin activity from the same menu.  If you want to test the java appplication class instead of the kotlin application class just change the name in the application tag in the Android manifest to ```name=".LinkSampleJavaApplication"```.
