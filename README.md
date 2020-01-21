@@ -16,9 +16,16 @@ git clone https://github.com/plaid/plaid-link-android.git
 2. Open the repository with Android Studio (or IntelliJ)
 3. Add your plaid public key from the [Plaid Dashboard](https://dashboard.plaid.com/team/keys) to the donottranslate.xml file
 ``` xml
-<string name="plaid_public_key">TODO Add your key here</string>
+<string name="plaid_public_key">TODO Add your public_key here</string>
 ```
-4. Build and run from Android Studio (green arrow or Run -> Run App) 
+4. [Follow the instrutions](https://plaid.com/docs/link/android/#register-redirect-uri) to register the `myapp://plaid-redirect` redirect Uri on the plaid dashboard.
+> This redirect Uri is already configured in the Android manifest for your convenience:
+> ```xml
+> <data
+>     android:host="plaid-redirect"
+>     android:scheme="myapp" />
+> ```
+5. Build and run from Android Studio (green arrow or Run -> Run App) 
 
 ![](./docs/images/AndroidToolbarRun.png)
 
