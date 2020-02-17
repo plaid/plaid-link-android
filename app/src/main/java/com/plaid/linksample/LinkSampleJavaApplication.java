@@ -3,9 +3,9 @@ package com.plaid.linksample;
 import android.app.Application;
 
 import com.plaid.link.Plaid;
-import com.plaid.linkbase.models.PlaidOptions;
-import com.plaid.linkbase.models.PlaidEnvironment;
-import com.plaid.plog.LogLevel;
+import com.plaid.linkbase.models.configuration.PlaidEnvironment;
+import com.plaid.linkbase.models.configuration.PlaidOptions;
+import com.plaid.log.LogLevel;
 
 public class LinkSampleJavaApplication extends Application {
 
@@ -18,6 +18,6 @@ public class LinkSampleJavaApplication extends Application {
         .logLevel(BuildConfig.DEBUG ? LogLevel.DEBUG : LogLevel.ASSERT)
         .build();
 
-    Plaid.create(this, plaidOptions);
+    Plaid.setOptions(plaidOptions);
   }
 }
