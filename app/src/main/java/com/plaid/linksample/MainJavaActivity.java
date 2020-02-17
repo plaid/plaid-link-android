@@ -13,13 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.plaid.link.Plaid;
-import com.plaid.linkbase.models.LinkCancellation;
-import com.plaid.linkbase.models.LinkConfiguration;
-import com.plaid.linkbase.models.LinkConnection;
-import com.plaid.linkbase.models.LinkConnectionMetadata;
-import com.plaid.linkbase.models.LinkEventListener;
-import com.plaid.linkbase.models.PlaidApiError;
-import com.plaid.linkbase.models.PlaidProduct;
+import com.plaid.linkbase.models.configuration.LinkConfiguration;
+import com.plaid.linkbase.models.configuration.PlaidProduct;
+import com.plaid.linkbase.models.connection.LinkConnection;
+import com.plaid.linkbase.models.connection.PlaidLinkResultHandler;
 
 import kotlin.Unit;
 
@@ -32,6 +29,41 @@ public class MainJavaActivity extends AppCompatActivity {
   private static final int LINK_REQUEST_CODE = 1;
   private TextView contentTextView;
 
+  private PlaidLinkResultHandler plaidLinkActivityResultHandler = new PlaidLinkResultHandler(
+      LINK_REQUEST_CODE,
+      linkConnection -> {
+        LinkConnection.LinkConnectionMetadata metadata = linkConnection.getLinkConnectionMetadata();
+        contentTextView.setText(getString(
+            R.string.content_success,
+            linkConnection.getPublicToken(),
+            metadata.getAccounts().get(0).getAccountId(),
+            metadata.getAccounts().get(0).getAccountName(),
+            metadata.getInstitutionId(),
+            metadata.getInstitutionName()));
+        return Unit.INSTANCE;
+      },
+      linkCancellation -> {
+        contentTextView.setText(getString(
+            R.string.content_cancelled,
+            linkCancellation.getInstitutionId(),
+            linkCancellation.getInstitutionName(),
+            linkCancellation.getLinkSessionId(),
+            linkCancellation.getStatus()));
+        return Unit.INSTANCE;
+      },
+      plaidApiError -> {
+        contentTextView.setText(getString(
+            R.string.content_exit,
+            plaidApiError.getDisplayMessage(),
+            plaidApiError.getErrorCode(),
+            plaidApiError.getErrorMessage(),
+            plaidApiError.getLinkExitMetadata().getInstitutionId(),
+            plaidApiError.getLinkExitMetadata().getInstitutionName(),
+            plaidApiError.getLinkExitMetadata().getStatus()));
+        return Unit.INSTANCE;
+      }
+  );
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -42,15 +74,15 @@ public class MainJavaActivity extends AppCompatActivity {
 
     FloatingActionButton fab = findViewById(R.id.open_link_fab);
     fab.setOnClickListener(view -> {
-      Plaid.setLinkEventListener(new LinkEventListener(it -> {
-        Log.i("Event", it.toString());
+      Plaid.setLinkEventListener(linkEvent -> {
+        Log.i("Event", linkEvent.toString());
         return Unit.INSTANCE;
-      }));
+      });
       ArrayList<PlaidProduct> products = new ArrayList<>();
       products.add(PlaidProduct.TRANSACTIONS);
       Plaid.openLink(
           MainJavaActivity.this,
-          new LinkConfiguration.Builder("Test App", products, "myapp://plaid-redirect").build(),
+          new LinkConfiguration.Builder("Test App", products).build(),
           LINK_REQUEST_CODE);
     });
   }
@@ -59,50 +91,8 @@ public class MainJavaActivity extends AppCompatActivity {
   protected void onActivityResult(
       int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == LINK_REQUEST_CODE && data != null) {
-      if (resultCode == Plaid.RESULT_SUCCESS) {
-        LinkConnection item = (LinkConnection) data.getParcelableExtra(Plaid.LINK_RESULT);
-        if (item != null) {
-          LinkConnectionMetadata metadata = item.getLinkConnectionMetadata();
-          contentTextView.setText(getString(
-              R.string.content_success,
-              item.getPublicToken(),
-              metadata.getAccounts().get(0).getAccountId(),
-              metadata.getAccounts().get(0).getAccountName(),
-              metadata.getInstitutionId(),
-              metadata.getInstitutionName()));
-        }
-      } else if (resultCode == Plaid.RESULT_CANCELLED) {
-        LinkCancellation cancellation = (LinkCancellation) data.getParcelableExtra(Plaid.LINK_RESULT);
-        if (cancellation != null) {
-          contentTextView.setText(getString(
-              R.string.content_cancelled,
-              cancellation.getInstitutionId(),
-              cancellation.getInstitutionName(),
-              cancellation.getLinkSessionId(),
-              cancellation.getStatus()));
-        }
-      } else if (resultCode == Plaid.RESULT_EXIT) {
-        PlaidApiError error = (PlaidApiError) data.getParcelableExtra(Plaid.LINK_RESULT);
-        if (error != null) {
-          contentTextView.setText(getString(
-              R.string.content_exit,
-              error.getDisplayMessage(),
-              error.getErrorCode(),
-              error.getErrorMessage(),
-              error.getLinkExitMetadata().getInstitutionId(),
-              error.getLinkExitMetadata().getInstitutionName(),
-              error.getLinkExitMetadata().getStatus()));
-        }
-      } else if (resultCode == Plaid.RESULT_EXCEPTION) {
-        Exception exception = (Exception) data.getSerializableExtra(Plaid.LINK_RESULT);
-        if (exception != null) {
-          contentTextView.setText(getString(
-              R.string.content_exception,
-              exception.getClass().toString(),
-              exception.getMessage()));
-        }
-      }
+    if (!plaidLinkActivityResultHandler.onActivityResult(requestCode, resultCode, data)) {
+      Log.i(MainJavaActivity.class.getSimpleName(), "Not handled");
     }
   }
 

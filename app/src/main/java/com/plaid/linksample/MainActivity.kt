@@ -9,12 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.plaid.link.Plaid
-import com.plaid.linkbase.models.LinkCancellation
-import com.plaid.linkbase.models.LinkConfiguration
-import com.plaid.linkbase.models.LinkConnection
-import com.plaid.linkbase.models.LinkEventListener
-import com.plaid.linkbase.models.PlaidApiError
-import com.plaid.linkbase.models.PlaidProduct
+import com.plaid.linkbase.models.configuration.LinkConfiguration
+import com.plaid.linkbase.models.configuration.PlaidProduct
+import com.plaid.linkbase.models.connection.PlaidLinkResultHandler
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +22,42 @@ class MainActivity : AppCompatActivity() {
 
   private lateinit var contentTextView: TextView
 
+  private val myPlaidLinkActivityResultHandler by lazy {
+    PlaidLinkResultHandler(
+      requestCode = LINK_REQUEST_CODE,
+      onSuccess = {
+        contentTextView.text = getString(
+          R.string.content_success,
+          it.publicToken,
+          it.linkConnectionMetadata.accounts[0].accountId,
+          it.linkConnectionMetadata.accounts[0].accountName,
+          it.linkConnectionMetadata.institutionId,
+          it.linkConnectionMetadata.institutionName
+        )
+      },
+      onCancelled = {
+        contentTextView.text = getString(
+          R.string.content_cancelled,
+          it.institutionId,
+          it.institutionName,
+          it.linkSessionId,
+          it.status
+        )
+      },
+      onExit = {
+        contentTextView.text = getString(
+          R.string.content_exit,
+          it.displayMessage,
+          it.errorCode,
+          it.errorMessage,
+          it.linkExitMetadata.institutionId,
+          it.linkExitMetadata.institutionName,
+          it.linkExitMetadata.status
+        )
+      }
+    )
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
@@ -33,15 +66,14 @@ class MainActivity : AppCompatActivity() {
 
     val fab = findViewById<FloatingActionButton>(R.id.open_link_fab)
     fab.setOnClickListener {
-      Plaid.setLinkEventListener(linkEventListener = LinkEventListener {
+      Plaid.setLinkEventListener(linkEventListener = {
         Log.i("Event", it.toString())
       })
       Plaid.openLink(
         activity = this,
         linkConfiguration = LinkConfiguration(
           clientName = "Test App",
-          products = listOf(PlaidProduct.TRANSACTIONS),
-          webviewRedirectUri = "myapp://plaid-redirect"
+          products = listOf(PlaidProduct.TRANSACTIONS)
         ),
         requestCode = LINK_REQUEST_CODE
       )
@@ -50,50 +82,8 @@ class MainActivity : AppCompatActivity() {
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, intent)
-    if (requestCode == LINK_REQUEST_CODE) {
-      when (resultCode) {
-        Plaid.RESULT_SUCCESS ->
-          (data?.getParcelableExtra(Plaid.LINK_RESULT) as LinkConnection).let {
-            contentTextView.text = getString(
-              R.string.content_success,
-              it.publicToken,
-              it.linkConnectionMetadata.accounts[0].accountId,
-              it.linkConnectionMetadata.accounts[0].accountName,
-              it.linkConnectionMetadata.institutionId,
-              it.linkConnectionMetadata.institutionName
-            )
-          }
-        Plaid.RESULT_CANCELLED ->
-          (data?.getParcelableExtra(Plaid.LINK_RESULT) as LinkCancellation).let {
-            contentTextView.text = getString(
-              R.string.content_cancelled,
-              it.institutionId,
-              it.institutionName,
-              it.linkSessionId,
-              it.status
-            )
-          }
-        Plaid.RESULT_EXIT ->
-          (data?.getParcelableExtra(Plaid.LINK_RESULT) as PlaidApiError).let {
-            contentTextView.text = getString(
-              R.string.content_exit,
-              it.displayMessage,
-              it.errorCode,
-              it.errorMessage,
-              it.linkExitMetadata.institutionId,
-              it.linkExitMetadata.institutionName,
-              it.linkExitMetadata.status
-            )
-          }
-        Plaid.RESULT_EXCEPTION ->
-          (data?.getSerializableExtra(Plaid.LINK_RESULT) as java.lang.Exception).let {
-            contentTextView.text = getString(
-              R.string.content_exception,
-              it.javaClass.toString(),
-              it.message
-            )
-          }
-      }
+    if (!myPlaidLinkActivityResultHandler.onActivityResult(requestCode, resultCode, data)) {
+      Log.i(MainActivity::class.java.simpleName, "Not handled")
     }
   }
 
