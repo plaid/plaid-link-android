@@ -1,4 +1,4 @@
-# Plaid Link Sample Android App
+# Plaid Link Sample Android App [![version][link-sdk-version]][link-sdk-url]
 Detailed instructions on how to integrate with Plaid Link for Android can be found in our main documentation at [plaid.com/docs/link/android][link-android-docs].
 
 This repository contains a sample application that demonstrates integration and use of Plaid Link for Android.  There are activities that show how to open link from Kotlin or Java.
@@ -57,4 +57,7 @@ and register the Uri in the [plaid dashboard](https://dashboard.plaid.com/team/a
 The repository contains a java and kotlin application class and a java and kotlin activity.  From the kotlin activity you can open the java activity using the menu in the action bar and similarly from the java activity you can open the kotlin activity from the same menu.  If you want to test the java appplication class instead of the kotlin application class just change the name in the application tag in the Android manifest to ```name=".LinkSampleJavaApplication"```.
 
 When running the app, the floating action button will start the Link flow and when the flow completes (with a success, cancellation, error, or crash) you will see the results in the main activity.
+
+[link-sdk-version]: https://img.shields.io/bintray/v/plaid/link-android/com.plaid.link
+[link-sdk-url]: https://bintray.com/plaid/link-android/com.plaid.link
 
