@@ -19,7 +19,7 @@ import com.plaid.linkbase.models.connection.PlaidLinkResultHandler;
 import java.util.ArrayList;
 import kotlin.Unit;
 
-public class MainJavaActivity extends AppCompatActivity {
+public class MainActivityJava extends AppCompatActivity {
 
   private static final int LINK_REQUEST_CODE = 1;
   private TextView contentTextView;
@@ -74,7 +74,7 @@ public class MainJavaActivity extends AppCompatActivity {
       ArrayList<PlaidProduct> products = new ArrayList<>();
       products.add(PlaidProduct.TRANSACTIONS);
       Plaid.openLink(
-          MainJavaActivity.this,
+          MainActivityJava.this,
           new LinkConfiguration.Builder("Test App", products).build(),
           LINK_REQUEST_CODE);
     });
@@ -85,14 +85,14 @@ public class MainJavaActivity extends AppCompatActivity {
       int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (!plaidLinkActivityResultHandler.onActivityResult(requestCode, resultCode, data)) {
-      Log.i(MainJavaActivity.class.getSimpleName(), "Not handled");
+      Log.i(MainActivityJava.class.getSimpleName(), "Not handled");
     }
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.java_menu, menu);
+    inflater.inflate(R.menu.menu_java, menu);
     return true;
   }
 

@@ -86,14 +86,14 @@ class MainActivity : AppCompatActivity() {
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.kotlin_menu, menu)
+    menuInflater.inflate(R.menu.menu, menu)
     return true
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean =
     when (item.itemId) {
       R.id.show_java -> {
-        val intent = Intent(this@MainActivity, MainJavaActivity::class.java)
+        val intent = Intent(this@MainActivity, MainActivityJava::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         true
