@@ -12,7 +12,6 @@ import com.plaid.link.Plaid
 import com.plaid.linkbase.models.configuration.LinkConfiguration
 import com.plaid.linkbase.models.configuration.PlaidProduct
 import com.plaid.linkbase.models.connection.PlaidLinkResultHandler
-import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    setSupportActionBar(toolbar)
+    setSupportActionBar(findViewById(R.id.toolbar))
     contentTextView = findViewById(R.id.content)
 
     val fab = findViewById<FloatingActionButton>(R.id.open_link_fab)
