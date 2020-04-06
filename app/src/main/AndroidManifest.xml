@@ -23,7 +23,7 @@
     </activity>
 
     <activity
-      android:name=".MainJavaActivity"
+      android:name=".MainActivityJava"
       android:label="@string/title_activity_main_java"
       android:theme="@style/AppTheme" />
 
