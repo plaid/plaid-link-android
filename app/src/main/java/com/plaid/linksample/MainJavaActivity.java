@@ -10,19 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.plaid.link.Plaid;
 import com.plaid.linkbase.models.configuration.LinkConfiguration;
 import com.plaid.linkbase.models.configuration.PlaidProduct;
 import com.plaid.linkbase.models.connection.LinkConnection;
 import com.plaid.linkbase.models.connection.PlaidLinkResultHandler;
-
-import kotlin.Unit;
-
 import java.util.ArrayList;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import kotlin.Unit;
 
 public class MainJavaActivity extends AppCompatActivity {
 
@@ -68,8 +63,6 @@ public class MainJavaActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main_java);
-    Toolbar toolbar = findViewById(R.id.toolbar);
-    setSupportActionBar(toolbar);
     contentTextView = findViewById(R.id.content);
 
     FloatingActionButton fab = findViewById(R.id.open_link_fab);

@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    setSupportActionBar(findViewById(R.id.toolbar))
     contentTextView = findViewById(R.id.content)
 
     val fab = findViewById<FloatingActionButton>(R.id.open_link_fab)
