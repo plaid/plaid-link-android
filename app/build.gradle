@@ -2,15 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('../keystore/release.jks')
-            storePassword 'release'
-            keyAlias = 'PlaidLinkSample'
-            keyPassword 'plaid1234'
-        }
-    }
-
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
@@ -19,6 +10,15 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../keystore/release.jks')
+            storePassword 'release'
+            keyAlias = 'PlaidLinkSample'
+            keyPassword 'plaid1234'
+        }
     }
 
     buildTypes {
