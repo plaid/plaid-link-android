@@ -80,11 +80,15 @@ class MainActivity : AppCompatActivity() {
     Log.i("Event", event.toString())
   }
 
+  /**
+   * For all Link configuration options, have a look at the
+   * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
+   */
   private fun openLink() {
     Plaid.openLink(
       activity = this,
       linkConfiguration = LinkConfiguration(
-        clientName = "Test App",
+        clientName = "Link demo",
         products = listOf(PlaidProduct.TRANSACTIONS)
       ),
       requestCode = LINK_REQUEST_CODE
