@@ -11,15 +11,14 @@ Sample application that demonstrates Plaid Link integration for Android in both 
 To run the sample app, you'll need a Plaid account. You can create one on [our website][plaid-signup].
 
 ## 1. Register your app id
-1. Log into your [Plaid Dashboard][plaid-dashboard] at the API page
+1. Log into your [Plaid Dashboard][plaid-dashboard-api] at the API page
 2. Next to Allowed Android package names click "Configure" then "Add New Android Package Name"
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
 ## 2. Add your public key to the sample
 1. Clone the sample repository
-2. Copy your public key from your [Plaid Dashboard][plaid-dashboard] API page
-3. Paste your public key in `app/src/main/res/values/donottranslate.xml`
+2. Copy your public key from your [Plaid Dashboard][plaid-dashboard-keys] keys page
 
 ```xml
 <resources>
@@ -53,5 +52,6 @@ R8 and ProGuard rules are already bundled in our AAR and will be interpreted by 
 [link-sdk-url]: https://bintray.com/plaid/link-android/com.plaid.link
 [link-android-docs]: https://plaid.com/docs/link/android/
 [plaid-signup]: https://dashboard.plaid.com/signup?email=
-[plaid-dashboard]: https://dashboard.plaid.com/team/api
+[plaid-dashboard-api]: https://dashboard.plaid.com/team/api
+[plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
 [changelog]: https://github.com/plaid/plaid-link-android/releases
