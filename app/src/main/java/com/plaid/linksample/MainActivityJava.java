@@ -95,7 +95,7 @@ public class MainActivityJava extends AppCompatActivity {
     products.add(PlaidProduct.TRANSACTIONS);
     Plaid.openLink(
         MainActivityJava.this,
-        new LinkConfiguration.Builder("Test App", products).build(),
+        new LinkConfiguration.Builder("Link demo", products).build(),
         LINK_REQUEST_CODE);
   }
 

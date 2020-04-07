@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     Plaid.openLink(
       activity = this,
       linkConfiguration = LinkConfiguration(
-        clientName = "Test App",
+        clientName = "Link demo",
         products = listOf(PlaidProduct.TRANSACTIONS)
       ),
       requestCode = LINK_REQUEST_CODE
