@@ -7,7 +7,7 @@ import com.plaid.linkbase.models.configuration.PlaidEnvironment;
 import com.plaid.linkbase.models.configuration.PlaidOptions;
 import com.plaid.log.LogLevel;
 
-public class LinkSampleJavaApplication extends Application {
+public class LinkSampleApplicationJava extends Application {
 
   @Override
   public void onCreate() {

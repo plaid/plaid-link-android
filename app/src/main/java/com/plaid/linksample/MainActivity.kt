@@ -12,7 +12,6 @@ import com.plaid.link.Plaid
 import com.plaid.linkbase.models.configuration.LinkConfiguration
 import com.plaid.linkbase.models.configuration.PlaidProduct
 import com.plaid.linkbase.models.connection.PlaidLinkResultHandler
-import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,13 +19,13 @@ class MainActivity : AppCompatActivity() {
     const val LINK_REQUEST_CODE = 1
   }
 
-  private lateinit var contentTextView: TextView
+  private lateinit var result: TextView
 
-  private val myPlaidLinkActivityResultHandler by lazy {
+  private val myPlaidResultHandler by lazy {
     PlaidLinkResultHandler(
       requestCode = LINK_REQUEST_CODE,
       onSuccess = {
-        contentTextView.text = getString(
+        result.text = getString(
           R.string.content_success,
           it.publicToken,
           it.linkConnectionMetadata.accounts[0].accountId,
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         )
       },
       onCancelled = {
-        contentTextView.text = getString(
+        result.text = getString(
           R.string.content_cancelled,
           it.institutionId,
           it.institutionName,
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         )
       },
       onExit = {
-        contentTextView.text = getString(
+        result.text = getString(
           R.string.content_exit,
           it.displayMessage,
           it.errorCode,
@@ -61,41 +60,49 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    setSupportActionBar(toolbar)
-    contentTextView = findViewById(R.id.content)
+    result = findViewById(R.id.result)
 
-    val fab = findViewById<FloatingActionButton>(R.id.open_link_fab)
+    val fab = findViewById<FloatingActionButton>(R.id.open_link)
     fab.setOnClickListener {
-      Plaid.setLinkEventListener(linkEventListener = {
-        Log.i("Event", it.toString())
-      })
-      Plaid.openLink(
-        activity = this,
-        linkConfiguration = LinkConfiguration(
-          clientName = "Test App",
-          products = listOf(PlaidProduct.TRANSACTIONS)
-        ),
-        requestCode = LINK_REQUEST_CODE
-      )
+      setOptionalEventListener()
+      openLink()
     }
+  }
+
+  /**
+   * Optional, set an [event listener](https://plaid.com/docs/link/android/#handling-onevent).
+   */
+  private fun setOptionalEventListener() = Plaid.setLinkEventListener { event ->
+    Log.i("Event", event.toString())
+  }
+
+  private fun openLink() {
+    Plaid.openLink(
+      activity = this,
+      linkConfiguration = LinkConfiguration(
+        clientName = "Test App",
+        products = listOf(PlaidProduct.TRANSACTIONS)
+      ),
+      requestCode = LINK_REQUEST_CODE
+    )
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, intent)
-    if (!myPlaidLinkActivityResultHandler.onActivityResult(requestCode, resultCode, data)) {
+    if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
       Log.i(MainActivity::class.java.simpleName, "Not handled")
     }
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.kotlin_menu, menu)
+    menuInflater.inflate(R.menu.menu, menu)
     return true
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean =
     when (item.itemId) {
       R.id.show_java -> {
-        val intent = Intent(this@MainActivity, MainJavaActivity::class.java)
+        val intent = Intent(this@MainActivity, MainActivityJava::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         true
