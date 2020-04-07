@@ -1,7 +1,9 @@
 # Plaid Link Sample Android App [![version][link-sdk-version]][link-sdk-url]
 Sample application that demonstrates Plaid Link integration for Android in both Kotlin and Java.
 
-<center><img src="docs/link_demo.gif" loading="lazy" alt="Link demo gif" height="512" /></center>
+<p align="center">
+  <img src="docs/link_demo.gif" loading="lazy" alt="Link demo gif" height="512" />
+</p>
 
 > Detailed instructions on how to integrate with Plaid Link for Android in your app can be found in our [main documentation][link-android-docs].
 
