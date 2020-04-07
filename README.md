@@ -58,6 +58,18 @@ The repository contains a java and kotlin application class and a java and kotli
 
 When running the app, the floating action button will start the Link flow and when the flow completes (with a success, cancellation, error, or crash) you will see the results in the main activity.
 
+# Releases
+Our [change log][changelog] has release history.
+
+The latest version of Plaid Link is [![version][link-sdk-version]][link-sdk-url].
+
+```kotlin
+implementation("com.plaid.link:sdk-core:<insert latest version>")
+```
+
+R8 and ProGuard rules are already bundled in our AAR and will be interpreted by R8/Proguard automatically.
+
 [link-sdk-version]: https://img.shields.io/bintray/v/plaid/link-android/com.plaid.link
 [link-sdk-url]: https://bintray.com/plaid/link-android/com.plaid.link
+[changelog]: https://github.com/plaid/plaid-link-android/releases
 
