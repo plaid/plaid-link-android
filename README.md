@@ -12,7 +12,7 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 
 ## 1. Register your app id
 1. Log into your [Plaid Dashboard][plaid-dashboard-api] at the API page
-2. Next to Allowed Android package names click "Configure" then "Add New Android Package Name"
+2. Next to "Allowed Android package names" click "Configure" then "Add New Android Package Name"
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
