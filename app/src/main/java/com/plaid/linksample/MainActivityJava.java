@@ -86,6 +86,10 @@ public class MainActivityJava extends AppCompatActivity {
     });
   }
 
+  /**
+   * For all Link configuration options, have a look at the
+   * <a href="https://plaid.com/docs/link/android/#parameter-reference">parameter reference</>
+   */
   private void openLink() {
     ArrayList<PlaidProduct> products = new ArrayList<>();
     products.add(PlaidProduct.TRANSACTIONS);
