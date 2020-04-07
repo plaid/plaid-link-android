@@ -24,7 +24,7 @@ public class MainActivityJava extends AppCompatActivity {
   private static final int LINK_REQUEST_CODE = 1;
   private TextView result;
 
-  private PlaidLinkResultHandler plaidLinkActivityResultHandler = new PlaidLinkResultHandler(
+  private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
       LINK_REQUEST_CODE,
       linkConnection -> {
         LinkConnection.LinkConnectionMetadata metadata = linkConnection.getLinkConnectionMetadata();
@@ -94,7 +94,7 @@ public class MainActivityJava extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (!plaidLinkActivityResultHandler.onActivityResult(requestCode, resultCode, data)) {
+    if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
       Log.i(MainActivityJava.class.getSimpleName(), "Not handled");
     }
   }
