@@ -1,7 +1,7 @@
 # Plaid Link Sample Android App [![version][link-sdk-version]][link-sdk-url]
 Sample application that demonstrates Plaid Link integration for Android in both Kotlin and Java.
 
-<center><img src="./docs/images/link_demo.gif" loading="lazy" alt="Link demo gif" height="512" /></center>
+<center><img src="docs/images/link_demo.gif" loading="lazy" alt="Link demo gif" height="512" /></center>
 
 > Detailed instructions on how to integrate with Plaid Link for Android in your app can be found in our [main documentation][link-android-docs].
 
@@ -28,10 +28,13 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 ## 3. Run the sample application
 1. 🚀
 
-# App Features
-The repository contains a java and kotlin application class and a java and kotlin activity.  From the kotlin activity you can open the java activity using the menu in the action bar and similarly from the java activity you can open the kotlin activity from the same menu.  If you want to test the java appplication class instead of the kotlin application class just change the name in the application tag in the Android manifest to ```name=".LinkSampleJavaApplication"```.
+# Features
+- How to integrate the Plaid Link sdk: `build.gradle` files, `public_key` configuration, `Plaid` initialization
+- Kotlin and Java sample Activity that show how to start Link and receive a result
+- Use of `PlaidLinkResultHandler` for easy handling of Link results
+- _Optional_ use of `LinkEventListener` to get events from Link
 
-When running the app, the floating action button will start the Link flow and when the flow completes (with a success, cancellation, error, or crash) you will see the results in the main activity.
+Have a look at our [main documentation][link-android-docs] for all Plaid Link SDK features.
 
 # Releases
 Our [change log][changelog] has release history.
@@ -50,5 +53,3 @@ R8 and ProGuard rules are already bundled in our AAR and will be interpreted by 
 [plaid-signup]: https://dashboard.plaid.com/signup?email=
 [plaid-dashboard]: https://dashboard.plaid.com/team/api
 [changelog]: https://github.com/plaid/plaid-link-android/releases
-
-[link-demo]: ![Link demo](./docs/images/link_demo.gif
