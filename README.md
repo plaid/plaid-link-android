@@ -19,6 +19,7 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 ## 2. Add your public key to the sample
 1. Clone the sample repository
 2. Copy your public key from your [Plaid Dashboard][plaid-dashboard-keys] keys page
+3. Paste your public key in [`app/src/main/res/values/donottranslate.xml`][public-key]
 
 ```xml
 <resources>
@@ -54,4 +55,5 @@ R8 and ProGuard rules are already bundled in our AAR and will be interpreted by 
 [plaid-signup]: https://dashboard.plaid.com/signup?email=
 [plaid-dashboard-api]: https://dashboard.plaid.com/team/api
 [plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
+[public-key]: https://github.com/plaid/plaid-link-android/blob/update-readme/app/src/main/res/values/donottranslate.xml
 [changelog]: https://github.com/plaid/plaid-link-android/releases
