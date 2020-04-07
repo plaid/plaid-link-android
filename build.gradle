@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020 Plaid Technologies, Inc. <support@plaid.com>
+ */
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
