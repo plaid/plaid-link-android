@@ -16,21 +16,6 @@ android {
         versionName "1.0"
     }
 
-    signingConfigs {
-        release {
-            storeFile file('../keystore/release.jks')
-            storePassword 'release'
-            keyAlias = 'PlaidLinkSample'
-            keyPassword 'plaid1234'
-        }
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
