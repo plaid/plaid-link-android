@@ -28,12 +28,10 @@ import java.util.ArrayList;
 
 public class MainActivityJava extends AppCompatActivity {
 
-  private static final int LINK_REQUEST_CODE = 1;
   private TextView result;
   private TextView tokenResult;
 
   private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
-      LINK_REQUEST_CODE,
       linkConnection -> {
         LinkConnection.LinkConnectionMetadata metadata = linkConnection.getLinkConnectionMetadata();
         result.setText(getString(
@@ -43,27 +41,15 @@ public class MainActivityJava extends AppCompatActivity {
             linkConnection.getPublicToken()));
         return Unit.INSTANCE;
       },
-      linkCancellation -> {
-        tokenResult.setText("");
-
-        result.setText(getString(
-            R.string.content_cancelled,
-            linkCancellation.getInstitutionId(),
-            linkCancellation.getInstitutionName(),
-            linkCancellation.getLinkSessionId(),
-            linkCancellation.getStatus()));
-        return Unit.INSTANCE;
-      },
-      plaidApiError -> {
-        tokenResult.setText("");
+      linkExit -> {
         result.setText(getString(
             R.string.content_exit,
-            plaidApiError.getDisplayMessage(),
-            plaidApiError.getErrorCode(),
-            plaidApiError.getErrorMessage(),
-            plaidApiError.getLinkExitMetadata().getInstitutionId(),
-            plaidApiError.getLinkExitMetadata().getInstitutionName(),
-            plaidApiError.getLinkExitMetadata().getStatus()));
+            linkExit.error.getDisplayMessage(),
+            linkExit.error.getErrorCode(),
+            linkExit.error.getErrorMessage(),
+            linkExit.getMetadata().getInstitutionId(),
+            linkExit.getMetadata().getInstitutionName(),
+            linkExit.getMetadata().getStatus()));
         return Unit.INSTANCE;
       }
   );
@@ -100,9 +86,12 @@ public class MainActivityJava extends AppCompatActivity {
     ArrayList<PlaidProduct> products = new ArrayList<>();
     products.add(PlaidProduct.TRANSACTIONS);
     Plaid.openLink(
-        MainActivityJava.this,
-        new LinkConfiguration.Builder("Link demo", products).build(),
-        LINK_REQUEST_CODE);
+        this,
+        new LinkConfiguration.Builder()
+            .clientName("Link demo")
+            .products(products)
+            .publicKey(getString(R.string.plaid_public_key))
+            .build());
   }
 
   @Override

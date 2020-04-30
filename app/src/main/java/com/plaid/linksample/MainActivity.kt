@@ -13,42 +13,31 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
-import com.plaid.linkbase.models.configuration.LinkConfiguration
+import com.plaid.link.PlaidKotlinFunctions.LinkConfiguration
 import com.plaid.linkbase.models.configuration.PlaidProduct
 import com.plaid.linkbase.models.connection.PlaidLinkResultHandler
 
 class MainActivity : AppCompatActivity() {
-
-  companion object {
-    const val LINK_REQUEST_CODE = 1
-  }
 
   private lateinit var result: TextView
   private lateinit var tokenResult: TextView
 
   private val myPlaidResultHandler by lazy {
     PlaidLinkResultHandler(
-      requestCode = LINK_REQUEST_CODE,
       onSuccess = {
         tokenResult.text = getString(R.string.public_token_result, it.publicToken)
         result.text = getString(R.string.content_success)
-      },
-      onCancelled = {
-        tokenResult.text = ""
-        result.text = getString(
-          R.string.content_cancelled,
-          it.institutionId,
-          it.institutionName,
-          it.linkSessionId,
-          it.status
-        )
       },
       onExit = {
         tokenResult.text = ""
         result.text = getString(
           R.string.content_exit,
-          it.errorMessage,
-          it.errorCode
+          it.error?.displayMessage,
+          it.error?.errorCode,
+          it.error?.errorMessage,
+          it.metadata.institutionId,
+          it.metadata.institutionName,
+          it.metadata.status?.jsonValue
         )
       }
     )
@@ -79,13 +68,17 @@ class MainActivity : AppCompatActivity() {
    * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
    */
   private fun openLink() {
+    val config = LinkConfiguration(
+    ) {
+      clientName = "Link demo"
+      products = listOf(PlaidProduct.AUTH)
+      userLegalName = "Android TeamControl"
+      userEmailAddress = "android+control@plaid.com"
+      publicKey = getString(R.string.plaid_public_key)
+    }
     Plaid.openLink(
       activity = this,
-      linkConfiguration = LinkConfiguration(
-        clientName = "Link demo",
-        products = listOf(PlaidProduct.TRANSACTIONS)
-      ),
-      requestCode = LINK_REQUEST_CODE
+      linkConfiguration = config
     )
   }
 
