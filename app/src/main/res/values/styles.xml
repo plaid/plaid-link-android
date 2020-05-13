@@ -9,6 +9,18 @@
     <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="colorSecondary">@color/colorSecondary</item>
     <item name="colorOnSecondary">@color/colorOnSecondary</item>
+    <item name="android:fontFamily">@font/vaud</item>
+  </style>
+
+  <style name="PlaidText" parent="TextAppearance.AppCompat">
+    <item name="android:textAllCaps">false</item>
+  </style>
+
+  <style name="PlaidText.B1.Regular" parent="PlaidText">
+    <item name="android:fontFamily">@font/vaud</item>
+    <item name="android:textSize">@dimen/b1_font_size</item>
+    <item name="lineHeight">@dimen/b1_line_size</item>
+    <item name="android:textColor">@color/plaid_black_900</item>
   </style>
 
 </resources>
