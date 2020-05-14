@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -66,8 +67,8 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
     result = findViewById(R.id.result)
 
-    val fab = findViewById<FloatingActionButton>(R.id.open_link)
-    fab.setOnClickListener {
+    val button = findViewById<View>(R.id.open_link)
+    button.setOnClickListener {
       setOptionalEventListener()
       openLink()
     }

@@ -10,18 +10,21 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.plaid.link.Plaid;
 import com.plaid.linkbase.models.configuration.LinkConfiguration;
 import com.plaid.linkbase.models.configuration.PlaidProduct;
 import com.plaid.linkbase.models.connection.LinkConnection;
 import com.plaid.linkbase.models.connection.PlaidLinkResultHandler;
-import java.util.ArrayList;
+
 import kotlin.Unit;
+
+import java.util.ArrayList;
 
 public class MainActivityJava extends AppCompatActivity {
 
@@ -66,11 +69,11 @@ public class MainActivityJava extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main_java);
+    setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
 
-    FloatingActionButton fab = findViewById(R.id.open_link);
-    fab.setOnClickListener(view -> {
+    View button = findViewById(R.id.open_link);
+    button.setOnClickListener(view -> {
       setOptionalEventListener();
       openLink();
     });
