@@ -4,4 +4,12 @@
 
 <resources>
   <dimen name="fab_margin">16dp</dimen>
+
+  <dimen name="b1_font_size">16sp</dimen>
+  <dimen name="b1_line_size">24sp</dimen>
+
+  <dimen name="h4_font_size">20sp</dimen>
+  <dimen name="h4_line_size">24sp</dimen>
+
+  <dimen name="space_2x">16dp</dimen>
 </resources>
