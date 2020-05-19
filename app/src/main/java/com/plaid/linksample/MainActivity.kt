@@ -12,7 +12,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.plaid.link.Plaid
 import com.plaid.linkbase.models.configuration.LinkConfiguration
 import com.plaid.linkbase.models.configuration.PlaidProduct
@@ -30,14 +29,7 @@ class MainActivity : AppCompatActivity() {
     PlaidLinkResultHandler(
       requestCode = LINK_REQUEST_CODE,
       onSuccess = {
-        result.text = getString(
-          R.string.content_success,
-          it.publicToken,
-          it.linkConnectionMetadata.accounts[0].accountId,
-          it.linkConnectionMetadata.accounts[0].accountName,
-          it.linkConnectionMetadata.institutionId,
-          it.linkConnectionMetadata.institutionName
-        )
+        result.text = getString(R.string.content_success, it.publicToken)
       },
       onCancelled = {
         result.text = getString(
@@ -51,12 +43,8 @@ class MainActivity : AppCompatActivity() {
       onExit = {
         result.text = getString(
           R.string.content_exit,
-          it.displayMessage,
-          it.errorCode,
           it.errorMessage,
-          it.linkExitMetadata.institutionId,
-          it.linkExitMetadata.institutionName,
-          it.linkExitMetadata.status
+          it.errorCode
         )
       }
     )

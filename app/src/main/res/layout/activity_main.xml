@@ -16,7 +16,9 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
-    android:gravity="center" />
+    android:gravity="start|center"
+    android:text="@string/landing_text"
+    android:autoLink="all"/>
 
   <com.google.android.material.button.MaterialButton
     android:id="@+id/open_link"
