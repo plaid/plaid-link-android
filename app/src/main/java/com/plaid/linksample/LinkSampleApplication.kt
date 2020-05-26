@@ -5,10 +5,13 @@
 package com.plaid.linksample
 
 import android.app.Application
+import com.plaid.link.Plaid
 
 class LinkSampleApplication : Application() {
 
   override fun onCreate() {
     super.onCreate()
+
+    Plaid.create(this)
   }
 }

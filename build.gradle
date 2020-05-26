@@ -23,9 +23,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://artifactory.plaid.io/artifactory/link-sdk"
-        }
     }
 }
 

@@ -17,10 +17,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plaid.link.Plaid;
-import com.plaid.linkbase.models.configuration.LinkConfiguration;
-import com.plaid.linkbase.models.configuration.PlaidProduct;
-import com.plaid.linkbase.models.connection.LinkConnection;
-import com.plaid.linkbase.models.connection.PlaidLinkResultHandler;
+import com.plaid.link.configuration.LinkConfiguration;
+import com.plaid.link.configuration.PlaidProduct;
+import com.plaid.link.result.LinkConnection;
+import com.plaid.link.result.PlaidLinkResultHandler;
 
 import kotlin.Unit;
 

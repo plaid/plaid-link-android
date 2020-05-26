@@ -13,9 +13,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
-import com.plaid.link.PlaidKotlinFunctions.LinkConfiguration
-import com.plaid.linkbase.models.configuration.PlaidProduct
-import com.plaid.linkbase.models.connection.PlaidLinkResultHandler
+import com.plaid.link.configuration.PlaidProduct
+import com.plaid.link.linkConfiguration
+import com.plaid.link.result.PlaidLinkResultHandler
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,17 +68,13 @@ class MainActivity : AppCompatActivity() {
    * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
    */
   private fun openLink() {
-    val config = LinkConfiguration(
-    ) {
-      clientName = "Link demo"
-      products = listOf(PlaidProduct.AUTH)
-      userLegalName = "Android TeamControl"
-      userEmailAddress = "android+control@plaid.com"
-      publicKey = getString(R.string.plaid_public_key)
-    }
     Plaid.openLink(
       activity = this,
-      linkConfiguration = config
+      linkConfiguration = linkConfiguration {
+        clientName = "Link demo"
+        products = listOf(PlaidProduct.TRANSACTIONS)
+        publicKey = getString(R.string.plaid_public_key)
+      }
     )
   }
 
