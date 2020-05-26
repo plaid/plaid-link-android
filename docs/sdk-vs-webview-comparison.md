@@ -1,5 +1,5 @@
 # Plaid SDK vs Webview
-Integrating with the SDK provides many benefits over using a [WebView][https://developer.android.com/reference/android/webkit/WebView].
+Integrating with the SDK provides many benefits over using a [WebView](https://developer.android.com/reference/android/webkit/WebView).
 
 |       | SDK | Webview     |
 | :---        |    :----:   |          :---: |
