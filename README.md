@@ -17,10 +17,19 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
-## 2. Generate a link_token and add it to the sample app
+## 2a. Generate a link_token and add it to the sample app
 1. Clone the sample repository
 2. Curl [/link/token/create](https://plaid.com/docs/#create-link-token) to create a new link_token
 3. Copy and paste the link_token into the [kotlin][get-link-token-kotlin] or [java][get-link-token-java] `getLinkToken()` function.
+
+OR
+
+## 2b. Run the token server
+1. Run `npm install` to install necessary dependencies
+2. Copy your public key, client id, and secret from your [Plaid Dashboard][plaid-dashboard-keys] keys page
+3. Change the values in `index.js` to match these values
+4. Run the server with `node index.js` to start running on `localhost:8000`
+5. [Optionally] If developing on a device (and not an emulator), modify `baseUrl` in `LinkSampleRetrofit` to your computer's IP address
 
 ## 3. Run the sample application
 1. 🚀

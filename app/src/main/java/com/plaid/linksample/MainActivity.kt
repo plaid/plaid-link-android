@@ -11,17 +11,22 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
+import com.plaid.link.configuration.LinkTokenConfiguration
 import com.plaid.link.configuration.PlaidProduct
 import com.plaid.link.linkTokenConfiguration
 import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
   private lateinit var result: TextView
   private lateinit var tokenResult: TextView
+  private val linkSampleApi by lazy { (application as LinkSampleApplication).linkSampleApi }
 
   private val myPlaidResultHandler by lazy {
     PlaidLinkResultHandler(
@@ -87,7 +92,8 @@ class MainActivity : AppCompatActivity() {
    * copy and paste the link_token value here.
    */
   private fun getLinkTokenFromServer(): String {
-    return "<GENERATED_LINK_TOKEN>"
+    return linkSampleApi.getItemAddToken().blockingGet().add_token
+    //return "<GENERATED_LINK_TOKEN>"
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

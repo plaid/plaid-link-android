@@ -20,6 +20,7 @@ import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
+import com.plaid.linksample.network.LinkSampleApi;
 
 import kotlin.Unit;
 
@@ -29,6 +30,7 @@ public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
   private TextView tokenResult;
+  private LinkSampleApi linkSampleApi;
 
   private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
       linkSuccess -> {
@@ -61,6 +63,7 @@ public class MainActivityJava extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
     tokenResult = findViewById(R.id.public_token_result);
+    linkSampleApi = ((LinkSampleApplication) getApplication()).getLinkSampleApi();
 
     View button = findViewById(R.id.open_link);
     button.setOnClickListener(view -> {
@@ -89,9 +92,9 @@ public class MainActivityJava extends AppCompatActivity {
     Plaid.openLink(
         this,
         new LinkTokenConfiguration.Builder()
-          .token(getLinkTokenFromServer())
-          .build()
-          .toLinkConfiguration());
+            .token(getLinkTokenFromServer())
+            .build()
+            .toLinkConfiguration());
   }
 
   @Override
@@ -126,11 +129,13 @@ public class MainActivityJava extends AppCompatActivity {
   /**
    * In production, make an API request to your server to fetch
    * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
-   *
+   * <p>
    * This is a dummy implementation. If you curl for a link_token, you can
    * copy and paste the link_token value here.
    */
   private String getLinkTokenFromServer() {
+//    return linkSampleApi.getItemAddToken().blockingGet().getAdd_token();
+
     return "<GENERATED_LINK_TOKEN>";
   }
 }
