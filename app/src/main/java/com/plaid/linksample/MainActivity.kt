@@ -11,16 +11,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
-import com.plaid.link.configuration.LinkTokenConfiguration
-import com.plaid.link.configuration.PlaidProduct
 import com.plaid.link.linkTokenConfiguration
 import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
