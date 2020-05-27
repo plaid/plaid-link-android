@@ -64,3 +64,6 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+
+# Node modules in server code
+server/node_modules/

@@ -11,11 +11,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
 import com.plaid.linkbase.models.configuration.LinkConfiguration
 import com.plaid.linkbase.models.configuration.PlaidProduct
 import com.plaid.linkbase.models.connection.PlaidLinkResultHandler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,12 +27,13 @@ class MainActivity : AppCompatActivity() {
   }
 
   private lateinit var result: TextView
+  private val linkSampleApi by lazy { (application as LinkSampleApplication).linkSampleApi }
 
   private val myPlaidResultHandler by lazy {
     PlaidLinkResultHandler(
       requestCode = LINK_REQUEST_CODE,
-      onSuccess = {
-        result.text = getString(R.string.content_success, it.publicToken)
+      onSuccess = { connection ->
+        result.text = getString(R.string.content_success, connection.publicToken)
       },
       onCancelled = {
         result.text = getString(
@@ -74,14 +78,22 @@ class MainActivity : AppCompatActivity() {
    * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
    */
   private fun openLink() {
-    Plaid.openLink(
-      activity = this,
-      linkConfiguration = LinkConfiguration(
-        clientName = "Link demo",
-        products = listOf(PlaidProduct.TRANSACTIONS)
-      ),
-      requestCode = LINK_REQUEST_CODE
-    )
+    // We create an item-add-token in order to authenticate item creation.
+    linkSampleApi.getItemAddToken()
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe({ addTokenResponse ->
+        Plaid.openLink(
+          activity = this,
+          linkConfiguration = LinkConfiguration(
+            clientName = "Link demo",
+            products = listOf(PlaidProduct.TRANSACTIONS),
+            token = addTokenResponse.add_token
+          ),
+          requestCode = LINK_REQUEST_CODE
+        )
+      }, { Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() })
+
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

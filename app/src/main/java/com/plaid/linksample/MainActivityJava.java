@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,29 +20,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.plaid.link.Plaid;
 import com.plaid.linkbase.models.configuration.LinkConfiguration;
 import com.plaid.linkbase.models.configuration.PlaidProduct;
-import com.plaid.linkbase.models.connection.LinkConnection;
 import com.plaid.linkbase.models.connection.PlaidLinkResultHandler;
+import com.plaid.linksample.network.LinkSampleApi;
 
 import kotlin.Unit;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivityJava extends AppCompatActivity {
 
   private static final int LINK_REQUEST_CODE = 1;
   private TextView result;
+  private LinkSampleApi linkSampleApi;
 
   private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
       LINK_REQUEST_CODE,
       linkConnection -> {
-        LinkConnection.LinkConnectionMetadata metadata = linkConnection.getLinkConnectionMetadata();
         result.setText(getString(
             R.string.content_success,
-            linkConnection.getPublicToken(),
-            metadata.getAccounts().get(0).getAccountId(),
-            metadata.getAccounts().get(0).getAccountName(),
-            metadata.getInstitutionId(),
-            metadata.getInstitutionName()));
+            linkConnection.getPublicToken()));
         return Unit.INSTANCE;
       },
       linkCancellation -> {
@@ -56,12 +56,8 @@ public class MainActivityJava extends AppCompatActivity {
       plaidApiError -> {
         result.setText(getString(
             R.string.content_exit,
-            plaidApiError.getDisplayMessage(),
-            plaidApiError.getErrorCode(),
             plaidApiError.getErrorMessage(),
-            plaidApiError.getLinkExitMetadata().getInstitutionId(),
-            plaidApiError.getLinkExitMetadata().getInstitutionName(),
-            plaidApiError.getLinkExitMetadata().getStatus()));
+            plaidApiError.getErrorCode()));
         return Unit.INSTANCE;
       }
   );
@@ -71,6 +67,7 @@ public class MainActivityJava extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
+    linkSampleApi = ((LinkSampleApplication) getApplication()).getLinkSampleApi();
 
     View button = findViewById(R.id.open_link);
     button.setOnClickListener(view -> {
@@ -94,12 +91,18 @@ public class MainActivityJava extends AppCompatActivity {
    * <a href="https://plaid.com/docs/link/android/#parameter-reference">parameter reference</>
    */
   private void openLink() {
-    ArrayList<PlaidProduct> products = new ArrayList<>();
-    products.add(PlaidProduct.TRANSACTIONS);
-    Plaid.openLink(
-        MainActivityJava.this,
-        new LinkConfiguration.Builder("Link demo", products).build(),
-        LINK_REQUEST_CODE);
+    // We create an item-add-token in order to authenticate item creation.
+    linkSampleApi.getItemAddToken()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(addTokenResponse -> {
+          Plaid.openLink(
+              MainActivityJava.this,
+              new LinkConfiguration.Builder(
+                  "Link demo",
+                  Arrays.asList(PlaidProduct.TRANSACTIONS)).build(),
+              LINK_REQUEST_CODE);
+        }, error -> { Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show(); });
   }
 
   @Override

@@ -16,16 +16,12 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
-## 2. Add your public key to the sample
-1. Clone the sample repository
-2. Copy your public key from your [Plaid Dashboard][plaid-dashboard-keys] keys page
-3. Paste your public key in [`app/src/main/res/values/donottranslate.xml`][public-key]
-
-```xml
-<resources>
-    <string name="plaid_public_key">TODO ADD YOUR KEY HERE</string>
-</resources>
-```
+## 2. Run the token server
+1. Run `npm install` to install necessary dependencies
+2. Copy your public key, client id, and secret from your [Plaid Dashboard][plaid-dashboard-keys] keys page
+3. Change the values in `index.js` to match these values
+4. Run the server with `node index.js` to start running on `localhost:8000`
+5. [Optionally] If developing on a device (and not an emulator), modify `baseUrl` in `LinkSampleRetrofit` to your computer's IP address
 
 ## 3. Run the sample application
 1. 🚀

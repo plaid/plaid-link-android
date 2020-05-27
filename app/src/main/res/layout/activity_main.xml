@@ -4,6 +4,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/root_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
@@ -16,9 +17,9 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
+    android:autoLink="all"
     android:gravity="start|center"
-    android:text="@string/landing_text"
-    android:autoLink="all"/>
+    android:text="@string/landing_text" />
 
   <com.google.android.material.button.MaterialButton
     android:id="@+id/open_link"
