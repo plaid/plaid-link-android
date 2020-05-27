@@ -16,10 +16,15 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
-## 2. Run the token server
-1. Run `npm install` to install necessary dependencies
+## 2. Run the token server (imitation [backend server][link-quickstart])
+1. [Install npm][npm-installation], and run `npm install` to install necessary dependencies.
 2. Copy your public key, client id, and secret from your [Plaid Dashboard][plaid-dashboard-keys] keys page
 3. Change the values in `index.js` to match these values
+```
+  var PLAID_CLIENT_ID = envvar.string('PLAID_CLIENT_ID');
+  var PLAID_SANDBOX_SECRET = envvar.string('PLAID_SANDBOX_SECRET');
+  var PLAID_PUBLIC_KEY = envvar.string('PLAID_PUBLIC_KEY');
+```
 4. Run the server with `node index.js` to start running on `localhost:8000`
 5. [Optionally] If developing on a device (and not an emulator), modify `baseUrl` in `LinkSampleRetrofit` to your computer's IP address
 
@@ -79,3 +84,5 @@ SOFTWARE.
 [plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
 [public-key]: https://github.com/plaid/plaid-link-android/blob/update-readme/app/src/main/res/values/donottranslate.xml
 [changelog]: https://github.com/plaid/plaid-link-android/releases
+[npm-installation]: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+[link-quickstart]: https://plaid.com/docs/quickstart/

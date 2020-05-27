@@ -12,7 +12,7 @@
     android:label="@string/app_name"
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
-    android:usesCleartextTraffic="true">
+    android:usesCleartextTraffic="true">   <!-- `usesCleartextTraffic` is only to allow http traffic to localhost. Do not use this for production apps.-->
     <activity
       android:name=".MainActivity"
       android:label="@string/title_activity_main"
@@ -29,10 +29,6 @@
       android:name=".MainActivityJava"
       android:label="@string/title_activity_main_java"
       android:theme="@style/AppTheme" />
-
-    <meta-data
-      android:name="com.plaid.link.public_key"
-      android:value="@string/plaid_public_key" />
 
   </application>
 

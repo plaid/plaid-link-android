@@ -92,7 +92,8 @@ class MainActivity : AppCompatActivity() {
           ),
           requestCode = LINK_REQUEST_CODE
         )
-      }, { Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() })
+      }, {
+        Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show() })
 
   }
 
