@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
 import com.plaid.link.configuration.PlaidProduct
 import com.plaid.link.linkConfiguration
+import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
 
 class MainActivity : AppCompatActivity() {
@@ -30,15 +31,18 @@ class MainActivity : AppCompatActivity() {
       },
       onExit = {
         tokenResult.text = ""
-        result.text = getString(
-          R.string.content_exit,
-          it.error?.displayMessage,
-          it.error?.errorCode,
-          it.error?.errorMessage,
-          it.metadata.institutionId,
-          it.metadata.institutionName,
-          it.metadata.status?.jsonValue
-        )
+        if (it.error != null) {
+          result.text = getString(
+            R.string.content_exit,
+            it.error?.displayMessage,
+            it.error?.errorCode
+          )
+        } else {
+          result.text = getString(
+            R.string.content_cancel,
+            it.metadata.status?.jsonValue ?: "unknown"
+          )
+        }
       }
     )
   }
@@ -47,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     result = findViewById(R.id.result)
-    tokenResult = findViewById(R.id.token_result)
+    tokenResult = findViewById<TextView>(R.id.public_token_result)
 
     val button = findViewById<View>(R.id.open_link)
     button.setOnClickListener {
@@ -68,8 +72,7 @@ class MainActivity : AppCompatActivity() {
    * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
    */
   private fun openLink() {
-    Plaid.openLink(
-      activity = this,
+    this@MainActivity.openPlaidLink(
       linkConfiguration = linkConfiguration {
         clientName = "Link demo"
         products = listOf(PlaidProduct.TRANSACTIONS)

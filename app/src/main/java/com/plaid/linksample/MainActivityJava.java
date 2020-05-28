@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkConfiguration;
 import com.plaid.link.configuration.PlaidProduct;
-import com.plaid.link.result.LinkConnection;
 import com.plaid.link.result.PlaidLinkResultHandler;
 
 import kotlin.Unit;
@@ -32,24 +31,26 @@ public class MainActivityJava extends AppCompatActivity {
   private TextView tokenResult;
 
   private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
-      linkConnection -> {
-        LinkConnection.LinkConnectionMetadata metadata = linkConnection.getLinkConnectionMetadata();
-        result.setText(getString(
-            R.string.content_success));
+      linkSuccess -> {
         tokenResult.setText(getString(
             R.string.public_token_result,
-            linkConnection.getPublicToken()));
+            linkSuccess.getPublicToken()));
+        result.setText(getString(
+            R.string.content_success));
         return Unit.INSTANCE;
       },
       linkExit -> {
-        result.setText(getString(
-            R.string.content_exit,
-            linkExit.error.getDisplayMessage(),
-            linkExit.error.getErrorCode(),
-            linkExit.error.getErrorMessage(),
-            linkExit.getMetadata().getInstitutionId(),
-            linkExit.getMetadata().getInstitutionName(),
-            linkExit.getMetadata().getStatus()));
+        tokenResult.setText("");
+        if (linkExit.error != null) {
+          result.setText(getString(
+              R.string.content_exit,
+              linkExit.error.getDisplayMessage(),
+              linkExit.error.getErrorCode()));
+        } else {
+          result.setText(getString(
+              R.string.content_cancel,
+              linkExit.metadata.status != null ? linkExit.metadata.status.jsonValue : "unknown"));
+        }
         return Unit.INSTANCE;
       }
   );
@@ -59,7 +60,7 @@ public class MainActivityJava extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
-    tokenResult = findViewById(R.id.token_result);
+    tokenResult = findViewById(R.id.public_token_result);
 
     View button = findViewById(R.id.open_link);
     button.setOnClickListener(view -> {

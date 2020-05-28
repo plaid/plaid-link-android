@@ -16,12 +16,14 @@
     \n2) Visit <a href="http://plaid.com/docs/link/android">http://plaid.com/docs/link/android</a> for more information on how to integrate
     \n3) Ready for the big leagues? Unlock production access by visiting <a href="http://plaid.com/contact">http://plaid.com/contact</a></string>
   <string name="content_cancelled">Institution Id:\n%1$s\n\n Institution Name:\n%2$s\n\n Link Session Id:\n%3$s\n\n Status:\n%4$s</string>
+
   <string name="content_exit">
     Uh-oh! It seems something went wrong:\n\"%1$s\"
 
     \n\nVisit <a href="https://plaid.com/docs/#errors">https://plaid.com/docs/#errors</a> for more information on the error code below
     \nError Code: <b>%2$s</b>
   </string>
+  <string name="content_cancel">You left Link without completing the flow. Reason: %1$s</string>
   <string name="content_exception">Exception Class:\n%1$s\n\n Exception Message:\n%2$s</string>
   <string name="landing_text">
     Welcome to the sample app. It will show you how Link Android SDK can integrate with your own app. We hope you’ll find that:\n

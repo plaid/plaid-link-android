@@ -12,6 +12,6 @@ class LinkSampleApplication : Application() {
   override fun onCreate() {
     super.onCreate()
 
-    Plaid.create(this)
+    Plaid.initialize(this)
   }
 }

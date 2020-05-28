@@ -14,6 +14,6 @@ public class LinkSampleApplicationJava extends Application {
   public void onCreate() {
     super.onCreate();
 
-    Plaid.create(this);
+    Plaid.initialize(this);
   }
 }
