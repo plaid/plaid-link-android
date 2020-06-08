@@ -24,14 +24,17 @@ class MainActivity : AppCompatActivity() {
   }
 
   private lateinit var result: TextView
+  private lateinit var tokenResult: TextView
 
   private val myPlaidResultHandler by lazy {
     PlaidLinkResultHandler(
       requestCode = LINK_REQUEST_CODE,
       onSuccess = {
-        result.text = getString(R.string.content_success, it.publicToken)
+        tokenResult.text = getString(R.string.public_token_result, it.publicToken)
+        result.text = getString(R.string.content_success)
       },
       onCancelled = {
+        tokenResult.text = ""
         result.text = getString(
           R.string.content_cancelled,
           it.institutionId,
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         )
       },
       onExit = {
+        tokenResult.text = ""
         result.text = getString(
           R.string.content_exit,
           it.errorMessage,
@@ -54,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     result = findViewById(R.id.result)
+    tokenResult = findViewById(R.id.token_result)
 
     val button = findViewById<View>(R.id.open_link)
     button.setOnClickListener {

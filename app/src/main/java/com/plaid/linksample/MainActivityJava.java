@@ -30,21 +30,22 @@ public class MainActivityJava extends AppCompatActivity {
 
   private static final int LINK_REQUEST_CODE = 1;
   private TextView result;
+  private TextView tokenResult;
 
   private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
       LINK_REQUEST_CODE,
       linkConnection -> {
         LinkConnection.LinkConnectionMetadata metadata = linkConnection.getLinkConnectionMetadata();
         result.setText(getString(
-            R.string.content_success,
-            linkConnection.getPublicToken(),
-            metadata.getAccounts().get(0).getAccountId(),
-            metadata.getAccounts().get(0).getAccountName(),
-            metadata.getInstitutionId(),
-            metadata.getInstitutionName()));
+            R.string.content_success));
+        tokenResult.setText(getString(
+            R.string.public_token_result,
+            linkConnection.getPublicToken()));
         return Unit.INSTANCE;
       },
       linkCancellation -> {
+        tokenResult.setText("");
+
         result.setText(getString(
             R.string.content_cancelled,
             linkCancellation.getInstitutionId(),
@@ -54,6 +55,7 @@ public class MainActivityJava extends AppCompatActivity {
         return Unit.INSTANCE;
       },
       plaidApiError -> {
+        tokenResult.setText("");
         result.setText(getString(
             R.string.content_exit,
             plaidApiError.getDisplayMessage(),
@@ -71,6 +73,7 @@ public class MainActivityJava extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
+    tokenResult = findViewById(R.id.token_result);
 
     View button = findViewById(R.id.open_link);
     button.setOnClickListener(view -> {
