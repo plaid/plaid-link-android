@@ -11,14 +11,22 @@
   tools:context=".MainActivity">
 
   <TextView
+    android:id="@+id/token_result"
+    style="@style/PlaidText.H4.Semibold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start|center"
+    tools:text="public_token:\npublic-sandbox-12341234" />
+
+  <TextView
     android:id="@+id/result"
     style="@style/PlaidText.B1.Regular"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
+    android:autoLink="all"
     android:gravity="start|center"
-    android:text="@string/landing_text"
-    android:autoLink="all"/>
+    android:text="@string/landing_text" />
 
   <com.google.android.material.button.MaterialButton
     android:id="@+id/open_link"
