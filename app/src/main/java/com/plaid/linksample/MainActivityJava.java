@@ -17,10 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plaid.link.Plaid;
-import com.plaid.linkbase.models.configuration.LinkConfiguration;
-import com.plaid.linkbase.models.configuration.PlaidProduct;
-import com.plaid.linkbase.models.connection.LinkConnection;
-import com.plaid.linkbase.models.connection.PlaidLinkResultHandler;
+import com.plaid.link.configuration.LinkConfiguration;
+import com.plaid.link.configuration.PlaidProduct;
+import com.plaid.link.result.PlaidLinkResultHandler;
 
 import kotlin.Unit;
 
@@ -28,42 +27,30 @@ import java.util.ArrayList;
 
 public class MainActivityJava extends AppCompatActivity {
 
-  private static final int LINK_REQUEST_CODE = 1;
   private TextView result;
   private TextView tokenResult;
 
   private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
-      LINK_REQUEST_CODE,
-      linkConnection -> {
-        LinkConnection.LinkConnectionMetadata metadata = linkConnection.getLinkConnectionMetadata();
-        result.setText(getString(
-            R.string.content_success));
+      linkSuccess -> {
         tokenResult.setText(getString(
             R.string.public_token_result,
-            linkConnection.getPublicToken()));
+            linkSuccess.getPublicToken()));
+        result.setText(getString(
+            R.string.content_success));
         return Unit.INSTANCE;
       },
-      linkCancellation -> {
+      linkExit -> {
         tokenResult.setText("");
-
-        result.setText(getString(
-            R.string.content_cancelled,
-            linkCancellation.getInstitutionId(),
-            linkCancellation.getInstitutionName(),
-            linkCancellation.getLinkSessionId(),
-            linkCancellation.getStatus()));
-        return Unit.INSTANCE;
-      },
-      plaidApiError -> {
-        tokenResult.setText("");
-        result.setText(getString(
-            R.string.content_exit,
-            plaidApiError.getDisplayMessage(),
-            plaidApiError.getErrorCode(),
-            plaidApiError.getErrorMessage(),
-            plaidApiError.getLinkExitMetadata().getInstitutionId(),
-            plaidApiError.getLinkExitMetadata().getInstitutionName(),
-            plaidApiError.getLinkExitMetadata().getStatus()));
+        if (linkExit.error != null) {
+          result.setText(getString(
+              R.string.content_exit,
+              linkExit.error.getDisplayMessage(),
+              linkExit.error.getErrorCode()));
+        } else {
+          result.setText(getString(
+              R.string.content_cancel,
+              linkExit.metadata.status != null ? linkExit.metadata.status.jsonValue : "unknown"));
+        }
         return Unit.INSTANCE;
       }
   );
@@ -73,7 +60,7 @@ public class MainActivityJava extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
-    tokenResult = findViewById(R.id.token_result);
+    tokenResult = findViewById(R.id.public_token_result);
 
     View button = findViewById(R.id.open_link);
     button.setOnClickListener(view -> {
@@ -100,9 +87,12 @@ public class MainActivityJava extends AppCompatActivity {
     ArrayList<PlaidProduct> products = new ArrayList<>();
     products.add(PlaidProduct.TRANSACTIONS);
     Plaid.openLink(
-        MainActivityJava.this,
-        new LinkConfiguration.Builder("Link demo", products).build(),
-        LINK_REQUEST_CODE);
+        this,
+        new LinkConfiguration.Builder()
+            .clientName("Link demo")
+            .products(products)
+            .publicKey(getString(R.string.plaid_public_key))
+            .build());
   }
 
   @Override
