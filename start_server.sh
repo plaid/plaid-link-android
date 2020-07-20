@@ -19,7 +19,6 @@ npm install
 
 PLAID_CLIENT_ID=$1 \
 PLAID_SECRET=$2 \
-PLAID_PUBLIC_KEY=$3 \
 PLAID_ENV='sandbox' \
 PLAID_PRODUCTS='transactions' \
 PLAID_COUNTRY_CODES='US' \
