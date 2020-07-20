@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
 import com.plaid.link.configuration.PlaidProduct
-import com.plaid.link.linkConfiguration
+import com.plaid.link.linkTokenConfiguration
 import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
 
@@ -73,10 +73,8 @@ class MainActivity : AppCompatActivity() {
    */
   private fun openLink() {
     this@MainActivity.openPlaidLink(
-      linkConfiguration = linkConfiguration {
-        clientName = "Link demo"
-        products = listOf(PlaidProduct.TRANSACTIONS)
-        publicKey = getString(R.string.plaid_public_key)
+      linkTokenConfiguration = linkTokenConfiguration {
+        token = getString(R.string.plaid_link_token)
       }
     )
   }

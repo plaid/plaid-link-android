@@ -3,5 +3,5 @@
   -->
 
 <resources>
-  <string name="plaid_public_key">TODO ADD YOUR KEY HERE</string>
+  <string name="plaid_link_token">TODO ADD YOUR LINK TOKEN HERE</string>
 </resources>

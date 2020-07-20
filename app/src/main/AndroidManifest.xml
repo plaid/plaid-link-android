@@ -32,8 +32,8 @@
       android:theme="@style/AppTheme" />
 
     <meta-data
-      android:name="com.plaid.link.public_key"
-      android:value="@string/plaid_public_key" />
+      android:name="com.plaid.link.link_token"
+      android:value="@string/plaid_link_token" />
 
   </application>
 

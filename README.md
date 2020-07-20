@@ -17,14 +17,14 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
-## 2. Add your public key to the sample
+## 2. Generate a link_token and add it to the sample app
 1. Clone the sample repository
-2. Copy your public key from your [Plaid Dashboard][plaid-dashboard-keys] keys page
-3. Paste your public key in [`app/src/main/res/values/donottranslate.xml`][public-key]
+2. Curl [/link/token/create](https://plaid.com/docs/#create-link-token) to create a new link_token
+3. Copy and paste the link_token in [app/src/main/res/values/donottranslate.xml][link-token]
 
 ```xml
 <resources>
-    <string name="plaid_public_key">TODO ADD YOUR KEY HERE</string>
+    <string name="plaid_public_key">TODO ADD YOUR LINK TOKEN HERE</string>
 </resources>
 ```
 
@@ -32,7 +32,7 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 1. 🚀
 
 # Features
-- How to integrate the Plaid Link sdk: `build.gradle` files, `public_key` configuration, `Plaid` initialization
+- How to integrate the Plaid Link sdk: `build.gradle` files, `link_token` configuration, `Plaid` initialization
 - Kotlin and Java sample Activity that show how to start Link and receive a result
 - Use of `PlaidLinkResultHandler` for easy handling of Link results
 - _Optional_ use of `LinkEventListener` to get events from Link
@@ -82,5 +82,5 @@ SOFTWARE.
 [plaid-signup]: https://dashboard.plaid.com/signup?email=
 [plaid-dashboard-api]: https://dashboard.plaid.com/team/api
 [plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
-[public-key]: https://github.com/plaid/plaid-link-android/blob/update-readme/app/src/main/res/values/donottranslate.xml
+[link-token]: https://github.com/plaid/plaid-link-android/blob/update-readme/app/src/main/res/values/donottranslate.xml
 [changelog]: https://github.com/plaid/plaid-link-android/releases

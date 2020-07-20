@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plaid.link.Plaid;
-import com.plaid.link.configuration.LinkConfiguration;
+import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
 
@@ -88,11 +88,10 @@ public class MainActivityJava extends AppCompatActivity {
     products.add(PlaidProduct.TRANSACTIONS);
     Plaid.openLink(
         this,
-        new LinkConfiguration.Builder()
-            .clientName("Link demo")
-            .products(products)
-            .publicKey(getString(R.string.plaid_public_key))
-            .build());
+        new LinkTokenConfiguration.Builder()
+          .token(getString(R.string.plaid_link_token))
+          .build()
+          .toLinkConfiguration());
   }
 
   @Override
