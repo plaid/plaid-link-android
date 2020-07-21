@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plaid.link.Plaid;
-import com.plaid.link.configuration.LinkConfiguration;
+import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
 
@@ -88,11 +88,10 @@ public class MainActivityJava extends AppCompatActivity {
     products.add(PlaidProduct.TRANSACTIONS);
     Plaid.openLink(
         this,
-        new LinkConfiguration.Builder()
-            .clientName("Link demo")
-            .products(products)
-            .publicKey(getString(R.string.plaid_public_key))
-            .build());
+        new LinkTokenConfiguration.Builder()
+          .token(getLinkTokenFromServer())
+          .build()
+          .toLinkConfiguration());
   }
 
   @Override
@@ -122,5 +121,16 @@ public class MainActivityJava extends AppCompatActivity {
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  /**
+   * In production, make an API request to your server to fetch
+   * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
+   *
+   * This is a dummy implementation. If you curl for a link_token, you can
+   * copy and paste the link_token value here.
+   */
+  private String getLinkTokenFromServer() {
+    return "<GENERATED_LINK_TOKEN>";
   }
 }
