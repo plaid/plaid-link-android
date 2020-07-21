@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020 Plaid Technologies, Inc. <support@plaid.com>
-  -->
-
-<resources>
-  <string name="plaid_link_token">TODO ADD YOUR LINK TOKEN HERE</string>
-</resources>
