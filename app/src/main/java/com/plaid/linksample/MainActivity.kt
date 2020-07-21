@@ -74,9 +74,20 @@ class MainActivity : AppCompatActivity() {
   private fun openLink() {
     this@MainActivity.openPlaidLink(
       linkTokenConfiguration = linkTokenConfiguration {
-        token = getString(R.string.plaid_link_token)
+        token = getLinkTokenFromServer()
       }
     )
+  }
+
+  /**
+   * In production, make an API request to your server to fetch
+   * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
+   *
+   * This is a dummy implementation. If you curl for a link_token, you can
+   * copy and paste the link_token value here.
+   */
+  private fun getLinkTokenFromServer(): String {
+    return "<GENERATED_LINK_TOKEN>"
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

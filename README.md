@@ -20,13 +20,7 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 ## 2. Generate a link_token and add it to the sample app
 1. Clone the sample repository
 2. Curl [/link/token/create](https://plaid.com/docs/#create-link-token) to create a new link_token
-3. Copy and paste the link_token in [app/src/main/res/values/donottranslate.xml][link-token]
-
-```xml
-<resources>
-    <string name="plaid_public_key">TODO ADD YOUR LINK TOKEN HERE</string>
-</resources>
-```
+3. Copy and paste the link_token into the [kotlin][get-link-token-kotlin] or [java][get-link-token-java] `getLinkToken()` function.
 
 ## 3. Run the sample application
 1. 🚀
@@ -84,3 +78,5 @@ SOFTWARE.
 [plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
 [link-token]: https://github.com/plaid/plaid-link-android/blob/update-readme/app/src/main/res/values/donottranslate.xml
 [changelog]: https://github.com/plaid/plaid-link-android/releases
+[get-link-token-kotlin]: https://github.com/plaid/plaid-link-android/app/src/main/java/com/plaid/linksample/MainActivity.kt
+[get-link-token-java]: https://github.com/plaid/plaid-link-android/app/src/main/java/com/plaid/linksample/MainActivityJava.java

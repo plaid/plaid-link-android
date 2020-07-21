@@ -89,7 +89,7 @@ public class MainActivityJava extends AppCompatActivity {
     Plaid.openLink(
         this,
         new LinkTokenConfiguration.Builder()
-          .token(getString(R.string.plaid_link_token))
+          .token(getLinkTokenFromServer())
           .build()
           .toLinkConfiguration());
   }
@@ -121,5 +121,16 @@ public class MainActivityJava extends AppCompatActivity {
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  /**
+   * In production, make an API request to your server to fetch
+   * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
+   *
+   * This is a dummy implementation. If you curl for a link_token, you can
+   * copy and paste the link_token value here.
+   */
+  private String getLinkTokenFromServer() {
+    return "<GENERATED_LINK_TOKEN>";
   }
 }
