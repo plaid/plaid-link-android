@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,10 @@ import com.plaid.linksample.network.LinkSampleApi;
 import kotlin.Unit;
 
 import java.util.ArrayList;
+
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivityJava extends AppCompatActivity {
 
@@ -89,12 +94,14 @@ public class MainActivityJava extends AppCompatActivity {
   private void openLink() {
     ArrayList<PlaidProduct> products = new ArrayList<>();
     products.add(PlaidProduct.TRANSACTIONS);
-    Plaid.openLink(
-        this,
-        new LinkTokenConfiguration.Builder()
-            .token(getLinkTokenFromServer())
-            .build()
-            .toLinkConfiguration());
+    getLinkTokenFromServer().subscribe(token -> {
+      Plaid.openLink(
+          this,
+          new LinkTokenConfiguration.Builder()
+              .token(token)
+              .build()
+              .toLinkConfiguration());
+    }, error -> {Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();});
   }
 
   @Override
@@ -133,9 +140,11 @@ public class MainActivityJava extends AppCompatActivity {
    * This is a dummy implementation. If you curl for a link_token, you can
    * copy and paste the link_token value here.
    */
-  private String getLinkTokenFromServer() {
-//    return linkSampleApi.getItemAddToken().blockingGet().getAdd_token();
-
-    return "<GENERATED_LINK_TOKEN>";
+  private Single<String> getLinkTokenFromServer() {
+    return linkSampleApi.getLinkToken()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .map(it -> it.getLink_token());
+//    return Single.just("<GENERATED_LINK_TOKEN>");
   }
 }

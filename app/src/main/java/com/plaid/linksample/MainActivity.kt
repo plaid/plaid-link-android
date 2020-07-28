@@ -11,11 +11,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
 import com.plaid.link.linkTokenConfiguration
 import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -72,11 +76,16 @@ class MainActivity : AppCompatActivity() {
    * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
    */
   private fun openLink() {
-    this@MainActivity.openPlaidLink(
-      linkTokenConfiguration = linkTokenConfiguration {
-        token = getLinkTokenFromServer()
-      }
-    )
+    getLinkTokenFromServer().subscribe(
+      {
+        this@MainActivity.openPlaidLink(
+          linkTokenConfiguration = linkTokenConfiguration {
+            token = it
+          }
+        )
+      },
+      { e -> Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show() })
+
   }
 
   /**
@@ -86,9 +95,12 @@ class MainActivity : AppCompatActivity() {
    * This is a dummy implementation. If you curl for a link_token, you can
    * copy and paste the link_token value here.
    */
-  private fun getLinkTokenFromServer(): String {
-    return linkSampleApi.getItemAddToken().blockingGet().add_token
-    //return "<GENERATED_LINK_TOKEN>"
+  private fun getLinkTokenFromServer(): Single<String> {
+    return linkSampleApi.getLinkToken()
+      .subscribeOn(Schedulers.io())
+      .observeOn(AndroidSchedulers.mainThread())
+      .map { it.link_token }
+    //return Single.just("<GENERATED_LINK_TOKEN>")
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

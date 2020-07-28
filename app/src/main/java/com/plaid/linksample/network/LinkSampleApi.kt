@@ -9,7 +9,7 @@ import retrofit2.http.POST
  */
 interface LinkSampleApi {
 
-  @POST("/get_link_token")
+  @POST("/api/create_link_token")
   fun getLinkToken(): Single<LinkToken>
 }
 

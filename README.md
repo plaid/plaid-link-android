@@ -27,7 +27,7 @@ OR
 ## 2b. Run the token server (imitation [backend server][link-quickstart])
 1. [Install npm][npm-installation]
 2. Copy your client id and secret from your [Plaid Dashboard][plaid-dashboard-keys] keys page
-3. Run `./start_server ${CLIENT_ID} ${SECRET}` but replace `client_id` and `secret` with values from your dashboard account.
+3. Run `./start_server.sh ${CLIENT_ID} ${SECRET}` but replace `client_id` and `secret` with values from your dashboard account.
 4. Server is now running on `localhost:8000`
 
 ## 3. Run the sample application
