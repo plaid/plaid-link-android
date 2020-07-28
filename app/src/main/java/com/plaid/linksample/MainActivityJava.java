@@ -22,6 +22,7 @@ import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
 import com.plaid.linksample.network.LinkSampleApi;
+import com.plaid.linksample.network.LinkSampleApiFactory;
 
 import kotlin.Unit;
 
@@ -68,7 +69,7 @@ public class MainActivityJava extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
     tokenResult = findViewById(R.id.public_token_result);
-    linkSampleApi = ((LinkSampleApplication) getApplication()).getLinkSampleApi();
+    linkSampleApi = LinkSampleApiFactory.INSTANCE.getApi();
 
     View button = findViewById(R.id.open_link);
     button.setOnClickListener(view -> {
@@ -145,6 +146,8 @@ public class MainActivityJava extends AppCompatActivity {
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .map(it -> it.getLink_token());
-//    return Single.just("<GENERATED_LINK_TOKEN>");
+
+    //    Optionally, un-comment this to paste your curled link_token here.
+    //    return Single.just("<GENERATED_LINK_TOKEN>");
   }
 }

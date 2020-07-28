@@ -17,6 +17,7 @@ import com.plaid.link.Plaid
 import com.plaid.link.linkTokenConfiguration
 import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
+import com.plaid.linksample.network.LinkSampleApiFactory
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
   private lateinit var result: TextView
   private lateinit var tokenResult: TextView
-  private val linkSampleApi by lazy { (application as LinkSampleApplication).linkSampleApi }
+  private val linkSampleApi = LinkSampleApiFactory.api
 
   private val myPlaidResultHandler by lazy {
     PlaidLinkResultHandler(
@@ -100,7 +101,9 @@ class MainActivity : AppCompatActivity() {
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .map { it.link_token }
-    //return Single.just("<GENERATED_LINK_TOKEN>")
+    
+    // Optionally, un-comment this to paste your curled link_token here.
+    // return Single.just("<GENERATED_LINK_TOKEN>")
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
