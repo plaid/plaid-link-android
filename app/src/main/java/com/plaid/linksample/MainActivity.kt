@@ -13,7 +13,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
-import com.plaid.link.configuration.PlaidProduct
 import com.plaid.link.linkTokenConfiguration
 import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     result = findViewById(R.id.result)
-    tokenResult = findViewById<TextView>(R.id.public_token_result)
+    tokenResult = findViewById(R.id.public_token_result)
 
     val button = findViewById<View>(R.id.open_link)
     button.setOnClickListener {

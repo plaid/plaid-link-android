@@ -15,22 +15,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
-import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
-
 import kotlin.Unit;
-
-import java.util.ArrayList;
 
 public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
   private TextView tokenResult;
 
-  private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
+  private final PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
       linkSuccess -> {
         tokenResult.setText(getString(
             R.string.public_token_result,
@@ -84,14 +79,12 @@ public class MainActivityJava extends AppCompatActivity {
    * <a href="https://plaid.com/docs/link/android/#parameter-reference">parameter reference</>
    */
   private void openLink() {
-    ArrayList<PlaidProduct> products = new ArrayList<>();
-    products.add(PlaidProduct.TRANSACTIONS);
     Plaid.openLink(
         this,
         new LinkTokenConfiguration.Builder()
-          .token(getLinkTokenFromServer())
-          .build()
-          .toLinkConfiguration());
+            .token(getLinkTokenFromServer())
+            .build()
+            .toLinkConfiguration());
   }
 
   @Override
@@ -126,7 +119,7 @@ public class MainActivityJava extends AppCompatActivity {
   /**
    * In production, make an API request to your server to fetch
    * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
-   *
+   * <p>
    * This is a dummy implementation. If you curl for a link_token, you can
    * copy and paste the link_token value here.
    */

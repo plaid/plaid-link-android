@@ -8,7 +8,7 @@
   <string name="title_activity_main_java">Link demo (java)</string>
   <string name="public_token_result">public_token:\n%s</string>
   <string name="content_success">
-    You did it! See, that wasn’t so hard :)
+    You did it! See, that wasn\'t so hard :)
 
     \n\nThe next step is adding the Link Android SDK to your app.
 

@@ -8,6 +8,7 @@ import android.app.Application;
 
 import com.plaid.link.Plaid;
 
+@SuppressWarnings("unused")
 public class LinkSampleApplicationJava extends Application {
 
   @Override
