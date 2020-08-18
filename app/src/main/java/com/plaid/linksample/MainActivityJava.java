@@ -21,22 +21,16 @@ import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
-import com.plaid.linksample.network.LinkSampleApi;
-import com.plaid.linksample.network.LinkSampleApiFactory;
+import com.plaid.linksample.network.LinkTokenRequester;
 
 import kotlin.Unit;
 
 import java.util.ArrayList;
 
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
 public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
   private TextView tokenResult;
-  private LinkSampleApi linkSampleApi;
 
   private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
       linkSuccess -> {
@@ -69,7 +63,6 @@ public class MainActivityJava extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     result = findViewById(R.id.result);
     tokenResult = findViewById(R.id.public_token_result);
-    linkSampleApi = LinkSampleApiFactory.INSTANCE.getApi();
 
     View button = findViewById(R.id.open_link);
     button.setOnClickListener(view -> {
@@ -95,14 +88,21 @@ public class MainActivityJava extends AppCompatActivity {
   private void openLink() {
     ArrayList<PlaidProduct> products = new ArrayList<>();
     products.add(PlaidProduct.TRANSACTIONS);
-    getLinkTokenFromServer().subscribe(token -> {
-      Plaid.openLink(
-          this,
-          new LinkTokenConfiguration.Builder()
-              .token(token)
-              .build()
-              .toLinkConfiguration());
-    }, error -> {Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();});
+    LinkTokenRequester.INSTANCE.getToken()
+        .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
+  }
+
+  private void onLinkTokenSuccess(String token) {
+    Plaid.openLink(
+        this,
+        new LinkTokenConfiguration.Builder()
+            .token(token)
+            .build()
+            .toLinkConfiguration());
+  }
+
+  private void onLinkTokenError(Throwable error) {
+    Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
   }
 
   @Override
@@ -132,22 +132,5 @@ public class MainActivityJava extends AppCompatActivity {
       default:
         return super.onOptionsItemSelected(item);
     }
-  }
-
-  /**
-   * In production, make an API request to your server to fetch
-   * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
-   * <p>
-   * This is a dummy implementation. If you curl for a link_token, you can
-   * copy and paste the link_token value here.
-   */
-  private Single<String> getLinkTokenFromServer() {
-    return linkSampleApi.getLinkToken()
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .map(it -> it.getLink_token());
-
-    //    Optionally, un-comment this to paste your curled link_token here.
-    //    return Single.just("<GENERATED_LINK_TOKEN>");
   }
 }
