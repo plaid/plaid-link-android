@@ -17,10 +17,18 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
-## 2. Generate a link_token and add it to the sample app
+## 2a. Generate a link_token and add it to the sample app
 1. Clone the sample repository
 2. Curl [/link/token/create](https://plaid.com/docs/#create-link-token) to create a new link_token
 3. Copy and paste the link_token into the [kotlin][get-link-token-kotlin] or [java][get-link-token-java] `getLinkToken()` function.
+
+OR
+
+## 2b. Run the token server (imitation [backend server][link-quickstart])
+1. [Install npm][npm-installation]
+2. Copy your client id and secret from your [Plaid Dashboard][plaid-dashboard-keys] keys page
+3. Run `./start_server.sh ${CLIENT_ID} ${SECRET}` but replace `client_id` and `secret` with values from your dashboard account.
+4. Server is now running on `localhost:8000`
 
 ## 3. Run the sample application
 1. 🚀
@@ -80,3 +88,5 @@ SOFTWARE.
 [changelog]: https://github.com/plaid/plaid-link-android/releases
 [get-link-token-kotlin]: https://github.com/plaid/plaid-link-android/app/src/main/java/com/plaid/linksample/MainActivity.kt
 [get-link-token-java]: https://github.com/plaid/plaid-link-android/app/src/main/java/com/plaid/linksample/MainActivityJava.java
+[npm-installation]: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+[link-quickstart]: https://plaid.com/docs/quickstart/

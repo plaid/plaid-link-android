@@ -12,12 +12,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.result.PlaidLinkResultHandler;
+import com.plaid.linksample.network.LinkTokenRequester;
 import kotlin.Unit;
 
 public class MainActivityJava extends AppCompatActivity {
@@ -79,12 +81,23 @@ public class MainActivityJava extends AppCompatActivity {
    * <a href="https://plaid.com/docs/link/android/#parameter-reference">parameter reference</>
    */
   private void openLink() {
+    ArrayList<PlaidProduct> products = new ArrayList<>();
+    products.add(PlaidProduct.TRANSACTIONS);
+    LinkTokenRequester.INSTANCE.getToken()
+        .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
+  }
+
+  private void onLinkTokenSuccess(String token) {
     Plaid.openLink(
         this,
         new LinkTokenConfiguration.Builder()
-            .token(getLinkTokenFromServer())
+            .token(token)
             .build()
             .toLinkConfiguration());
+  }
+
+  private void onLinkTokenError(Throwable error) {
+    Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
   }
 
   @Override
@@ -114,16 +127,5 @@ public class MainActivityJava extends AppCompatActivity {
       default:
         return super.onOptionsItemSelected(item);
     }
-  }
-
-  /**
-   * In production, make an API request to your server to fetch
-   * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
-   * <p>
-   * This is a dummy implementation. If you curl for a link_token, you can
-   * copy and paste the link_token value here.
-   */
-  private String getLinkTokenFromServer() {
-    return "<GENERATED_LINK_TOKEN>";
   }
 }

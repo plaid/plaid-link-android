@@ -11,11 +11,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
 import com.plaid.link.linkTokenConfiguration
 import com.plaid.link.openPlaidLink
 import com.plaid.link.result.PlaidLinkResultHandler
+import com.plaid.linksample.network.LinkTokenRequester
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,22 +73,19 @@ class MainActivity : AppCompatActivity() {
    * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
    */
   private fun openLink() {
+    LinkTokenRequester.token.subscribe(::onLinkTokenSuccess, ::onLinkTokenError)
+  }
+
+  private fun onLinkTokenSuccess(linkToken: String) {
     this@MainActivity.openPlaidLink(
       linkTokenConfiguration = linkTokenConfiguration {
-        token = getLinkTokenFromServer()
+        token = linkToken
       }
     )
   }
 
-  /**
-   * In production, make an API request to your server to fetch
-   * a new link_token. Learn more at https://plaid.com/docs/#create-link-token.
-   *
-   * This is a dummy implementation. If you curl for a link_token, you can
-   * copy and paste the link_token value here.
-   */
-  private fun getLinkTokenFromServer(): String {
-    return "<GENERATED_LINK_TOKEN>"
+  private fun onLinkTokenError(error: Throwable) {
+    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
