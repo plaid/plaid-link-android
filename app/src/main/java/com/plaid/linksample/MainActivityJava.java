@@ -16,23 +16,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
-import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
 import com.plaid.linksample.network.LinkTokenRequester;
-
 import kotlin.Unit;
-
-import java.util.ArrayList;
 
 public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
   private TextView tokenResult;
 
-  private PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
+  private final PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
       linkSuccess -> {
         tokenResult.setText(getString(
             R.string.public_token_result,
