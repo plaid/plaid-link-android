@@ -14,9 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.plaid.link.Plaid
-import com.plaid.link.linkTokenConfiguration
-import com.plaid.link.openPlaidLink
-import com.plaid.link.result.PlaidLinkResultHandler
+import com.plaid.link.configuration.LinkTokenConfiguration
+import com.plaid.link.result.LinkResultHandler
 import com.plaid.linksample.network.LinkTokenRequester
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
   private lateinit var tokenResult: TextView
 
   private val myPlaidResultHandler by lazy {
-    PlaidLinkResultHandler(
+    LinkResultHandler(
       onSuccess = {
         tokenResult.text = getString(R.string.public_token_result, it.publicToken)
         result.text = getString(R.string.content_success)
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     result = findViewById(R.id.result)
-    tokenResult = findViewById(R.id.public_token_result)
+    tokenResult = findViewById<TextView>(R.id.public_token_result)
 
     val button = findViewById<View>(R.id.open_link)
     button.setOnClickListener {
@@ -77,11 +76,8 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun onLinkTokenSuccess(linkToken: String) {
-    this@MainActivity.openPlaidLink(
-      linkTokenConfiguration = linkTokenConfiguration {
-        token = linkToken
-      }
-    )
+    Plaid.create(this.application, LinkTokenConfiguration.Builder().token(linkToken).build())
+      .open(this)
   }
 
   private fun onLinkTokenError(error: Throwable) {
