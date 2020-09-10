@@ -32,8 +32,10 @@ object LinkTokenRequester {
       .subscribeOn(Schedulers.io())
       .observeOn(AndroidSchedulers.mainThread())
       .map { it.link_token }
-  // Uncomment this to use a curled Link Token
-  //return Single.just("<GENERATED_LINK_TOKEN>")
+
+  // Comment out the above and uncomment this to use a curled Link Token
+  //  val token
+  //    get() =  Single.just("<GENERATED_LINK_TOKEN>")
 
 }
 

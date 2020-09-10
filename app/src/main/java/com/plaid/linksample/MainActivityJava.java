@@ -18,9 +18,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
+import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
 import com.plaid.linksample.network.LinkTokenRequester;
 import kotlin.Unit;
+import java.util.ArrayList;
 
 public class MainActivityJava extends AppCompatActivity {
 
@@ -28,28 +30,28 @@ public class MainActivityJava extends AppCompatActivity {
   private TextView tokenResult;
 
   private final PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
-      linkSuccess -> {
-        tokenResult.setText(getString(
-            R.string.public_token_result,
-            linkSuccess.getPublicToken()));
-        result.setText(getString(
-            R.string.content_success));
-        return Unit.INSTANCE;
-      },
-      linkExit -> {
-        tokenResult.setText("");
-        if (linkExit.error != null) {
-          result.setText(getString(
-              R.string.content_exit,
-              linkExit.error.getDisplayMessage(),
-              linkExit.error.getErrorCode()));
-        } else {
-          result.setText(getString(
-              R.string.content_cancel,
-              linkExit.metadata.status != null ? linkExit.metadata.status.jsonValue : "unknown"));
-        }
-        return Unit.INSTANCE;
-      }
+          linkSuccess -> {
+            tokenResult.setText(getString(
+                    R.string.public_token_result,
+                    linkSuccess.getPublicToken()));
+            result.setText(getString(
+                    R.string.content_success));
+            return Unit.INSTANCE;
+          },
+          linkExit -> {
+            tokenResult.setText("");
+            if (linkExit.error != null) {
+              result.setText(getString(
+                      R.string.content_exit,
+                      linkExit.error.getDisplayMessage(),
+                      linkExit.error.getErrorCode()));
+            } else {
+              result.setText(getString(
+                      R.string.content_cancel,
+                      linkExit.metadata.status != null ? linkExit.metadata.status.jsonValue : "unknown"));
+            }
+            return Unit.INSTANCE;
+          }
   );
 
   @Override
@@ -84,16 +86,16 @@ public class MainActivityJava extends AppCompatActivity {
     ArrayList<PlaidProduct> products = new ArrayList<>();
     products.add(PlaidProduct.TRANSACTIONS);
     LinkTokenRequester.INSTANCE.getToken()
-        .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
+            .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
   }
 
   private void onLinkTokenSuccess(String token) {
     Plaid.openLink(
-        this,
-        new LinkTokenConfiguration.Builder()
-            .token(token)
-            .build()
-            .toLinkConfiguration());
+            this,
+            new LinkTokenConfiguration.Builder()
+                    .token(token)
+                    .build()
+                    .toLinkConfiguration());
   }
 
   private void onLinkTokenError(Throwable error) {
