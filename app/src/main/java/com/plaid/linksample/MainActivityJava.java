@@ -24,7 +24,6 @@ import com.plaid.linksample.network.LinkTokenRequester;
 import java.util.ArrayList;
 import kotlin.Unit;
 
-
 public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
