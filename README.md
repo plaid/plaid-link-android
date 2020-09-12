@@ -20,7 +20,7 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 ## 2a. Generate a link_token and add it to the sample app
 1. Clone the sample repository
 2. Curl [/link/token/create](https://plaid.com/docs/#create-link-token) to create a new link_token
-3. Copy and paste the link_token into the [kotlin][get-link-token-kotlin] or [java][get-link-token-java] LinkTokenRequester Object's token `get()` function.
+3. Copy and paste the link_token into the [kotlin][get-link-token-kotlin] or [java][get-link-token-java] LinkTokenRequester's `getToken()` function.
 
 OR
 

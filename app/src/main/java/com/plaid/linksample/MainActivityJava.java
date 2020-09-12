@@ -21,8 +21,9 @@ import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.PlaidLinkResultHandler;
 import com.plaid.linksample.network.LinkTokenRequester;
-import kotlin.Unit;
 import java.util.ArrayList;
+import kotlin.Unit;
+
 
 public class MainActivityJava extends AppCompatActivity {
 
