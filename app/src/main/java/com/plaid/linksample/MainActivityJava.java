@@ -16,20 +16,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
-import com.plaid.link.configuration.PlaidProduct;
-import com.plaid.link.result.PlaidLinkResultHandler;
+import com.plaid.link.result.LinkResultHandler;
 import com.plaid.linksample.network.LinkTokenRequester;
-import java.util.ArrayList;
+
 import kotlin.Unit;
+
 
 public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
   private TextView tokenResult;
 
-  private final PlaidLinkResultHandler myPlaidResultHandler = new PlaidLinkResultHandler(
+  private LinkResultHandler myPlaidResultHandler = new LinkResultHandler(
       linkSuccess -> {
         tokenResult.setText(getString(
             R.string.public_token_result,
@@ -40,15 +41,17 @@ public class MainActivityJava extends AppCompatActivity {
       },
       linkExit -> {
         tokenResult.setText("");
-        if (linkExit.error != null) {
+        if (linkExit.getError() != null) {
           result.setText(getString(
               R.string.content_exit,
-              linkExit.error.getDisplayMessage(),
-              linkExit.error.getErrorCode()));
+              linkExit.getError().getDisplayMessage(),
+              linkExit.getError().getErrorCode()));
         } else {
           result.setText(getString(
               R.string.content_cancel,
-              linkExit.metadata.status != null ? linkExit.metadata.status.jsonValue : "unknown"));
+              linkExit.getMetadata().getStatus() != null ? linkExit.getMetadata()
+                  .getStatus()
+                  .getJsonValue() : "unknown"));
         }
         return Unit.INSTANCE;
       }
@@ -83,19 +86,17 @@ public class MainActivityJava extends AppCompatActivity {
    * <a href="https://plaid.com/docs/link/android/#parameter-reference">parameter reference</>
    */
   private void openLink() {
-    ArrayList<PlaidProduct> products = new ArrayList<>();
-    products.add(PlaidProduct.TRANSACTIONS);
     LinkTokenRequester.INSTANCE.getToken()
         .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
   }
 
   private void onLinkTokenSuccess(String token) {
-    Plaid.openLink(
-        this,
+    Plaid.create(
+        getApplication(),
         new LinkTokenConfiguration.Builder()
             .token(token)
-            .build()
-            .toLinkConfiguration());
+            .build())
+        .open(this);
   }
 
   private void onLinkTokenError(Throwable error) {
