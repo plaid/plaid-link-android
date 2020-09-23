@@ -19,13 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
-import com.plaid.link.configuration.PlaidProduct;
 import com.plaid.link.result.LinkResultHandler;
 import com.plaid.linksample.network.LinkTokenRequester;
 
 import kotlin.Unit;
-
-import java.util.ArrayList;
 
 
 public class MainActivityJava extends AppCompatActivity {
@@ -89,14 +86,16 @@ public class MainActivityJava extends AppCompatActivity {
    * <a href="https://plaid.com/docs/link/android/#parameter-reference">parameter reference</>
    */
   private void openLink() {
-    ArrayList<PlaidProduct> products = new ArrayList<>();
-    products.add(PlaidProduct.TRANSACTIONS);
     LinkTokenRequester.INSTANCE.getToken()
         .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
   }
 
   private void onLinkTokenSuccess(String token) {
-    Plaid.create(getApplication(), new LinkTokenConfiguration.Builder().token(token).build())
+    Plaid.create(
+        getApplication(),
+        new LinkTokenConfiguration.Builder()
+            .token(token)
+            .build())
         .open(this);
   }
 

@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     result = findViewById(R.id.result)
-    tokenResult = findViewById<TextView>(R.id.public_token_result)
+    tokenResult = findViewById(R.id.public_token_result)
 
     val button = findViewById<View>(R.id.open_link)
     button.setOnClickListener {
@@ -76,7 +76,12 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun onLinkTokenSuccess(linkToken: String) {
-    Plaid.create(this.application, LinkTokenConfiguration.Builder().token(linkToken).build())
+    Plaid.create(
+      this.application,
+      LinkTokenConfiguration.Builder()
+        .token(linkToken)
+        .build()
+    )
       .open(this)
   }
 
