@@ -17,11 +17,22 @@ npm install
 # initializing Link, see plaid.com/docs/faq/#does-plaid-support-international-bank-accounts-
 # for a complete list
 
+if [ -z "$1" ]
+  then
+    echo "Client id must be supplied"
+fi
+
+if [ -z "$2" ]
+  then
+    echo "Client secret must be supplied"
+fi
+
 PLAID_CLIENT_ID=$1 \
 PLAID_SECRET=$2 \
 PLAID_ENV='sandbox' \
 PLAID_PRODUCTS='transactions' \
 PLAID_COUNTRY_CODES='US' \
+PLAID_ANDROID_PACKAGE_NAME='com.plaid.linksample' \
 node index.js
 
 # Go to http://localhost:8000
