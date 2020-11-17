@@ -1,5 +1,7 @@
 package com.plaid.linksample.network
 
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -34,7 +36,7 @@ object LinkTokenRequester {
 
   //Comment out the above and uncomment the below to use a curled Link Token
   //val token
-  //  get() = Single.just("<GENERATED_LINK_TOKEN>">)
+  //  get() = Single.just("<GENERATED_LINK_TOKEN>")
 
 }
 
