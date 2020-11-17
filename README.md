@@ -84,9 +84,8 @@ SOFTWARE.
 [plaid-signup]: https://dashboard.plaid.com/signup?email=
 [plaid-dashboard-api]: https://dashboard.plaid.com/team/api
 [plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
-[link-token]: https://github.com/plaid/plaid-link-android/blob/update-readme/app/src/main/res/values/donottranslate.xml
 [changelog]: https://github.com/plaid/plaid-link-android/releases
-[get-link-token-kotlin]: https://github.com/plaid/plaid-link-android/app/src/main/java/com/plaid/linksample/MainActivity.kt
-[get-link-token-java]: https://github.com/plaid/plaid-link-android/app/src/main/java/com/plaid/linksample/MainActivityJava.java
+[get-link-token-kotlin]: app/src/main/java/com/plaid/linksample/MainActivity.kt
+[get-link-token-java]: app/src/main/java/com/plaid/linksample/MainActivityJava.java
 [npm-installation]: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 [link-quickstart]: https://plaid.com/docs/quickstart/
