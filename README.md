@@ -42,9 +42,10 @@ OR
 Have a look at our [main documentation][link-android-docs] for all Plaid Link SDK features.
 
 # Releases
-Our [change log][changelog] has release history.
 
-The latest version of Plaid Link is [![version][link-sdk-version]][link-sdk-url].
+We create release candidates (e.g. 7.0.0-rc1) as beta previews for developers. These are helpful for customers who either are 1. waiting for a specific fix or 2. extremely eager for specific features. They do not hold the same quality guarantee as our official releases, and should NOT be used in production. The official releases come ~2 weeks after the first release candidate (rc1).
+
+The latest stable version is the highest version without the suffix `-rcX`,
 
 ```kotlin
 implementation("com.plaid.link:sdk-core:<insert latest version>")
