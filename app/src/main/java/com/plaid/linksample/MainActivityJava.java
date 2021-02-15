@@ -13,13 +13,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.plaid.link.OpenPlaidLink;
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
+import com.plaid.link.result.LinkExit;
 import com.plaid.link.result.LinkResultHandler;
+import com.plaid.link.result.LinkSuccess;
 import com.plaid.linksample.network.LinkTokenRequester;
 
 import kotlin.Unit;
@@ -56,6 +60,26 @@ public class MainActivityJava extends AppCompatActivity {
         return Unit.INSTANCE;
       }
   );
+  
+  // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
+  private ActivityResultLauncher<LinkTokenConfiguration> launchLinkActivity =
+      this.registerForActivityResult(
+          new OpenPlaidLink(),
+          result -> {
+            if (result instanceof LinkSuccess) {
+              String tokenString = ((LinkSuccess) result).getPublicToken();
+              Toast.makeText(MainActivityJava.this, tokenString, Toast.LENGTH_SHORT).show();
+            } else if (result instanceof LinkExit) {
+              Toast.makeText(
+                  MainActivityJava.this,
+                  ((LinkExit) result).toString(),
+                  Toast.LENGTH_SHORT)
+                  .show();
+
+            } else {
+              throw new RuntimeException("Got unexpected result:" + result);
+            }
+          });
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

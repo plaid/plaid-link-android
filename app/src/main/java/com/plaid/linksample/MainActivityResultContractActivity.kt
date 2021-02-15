@@ -13,43 +13,55 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.plaid.link.OpenPlaidLink
 import com.plaid.link.Plaid
+import com.plaid.link.PlaidActivityResultContract
 import com.plaid.link.configuration.LinkTokenConfiguration
-import com.plaid.link.result.LinkResultHandler
+import com.plaid.link.result.LinkExit
+import com.plaid.link.result.LinkResult
+import com.plaid.link.result.LinkSuccess
 import com.plaid.linksample.network.LinkTokenRequester
 
-class MainActivity : AppCompatActivity() {
+class MainActivityResultContractActivity : AppCompatActivity() {
 
   private lateinit var result: TextView
   private lateinit var tokenResult: TextView
 
-  private val myPlaidResultHandler by lazy {
-    LinkResultHandler(
-      onSuccess = {
-        tokenResult.text = getString(R.string.public_token_result, it.publicToken)
+  @OptIn(PlaidActivityResultContract::class)
+  // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
+  private val launchLinkActivity = this.registerForActivityResult(
+    OpenPlaidLink()
+  ) { linkResult: LinkResult ->
+    when (linkResult) {
+      is LinkSuccess -> {
+        tokenResult.text = getString(R.string.public_token_result, linkResult.publicToken)
         result.text = getString(R.string.content_success)
-      },
-      onExit = {
+      }
+      is LinkExit -> {
         tokenResult.text = ""
-        if (it.error != null) {
+        if (linkResult.error != null) {
           result.text = getString(
             R.string.content_exit,
-            it.error?.displayMessage,
-            it.error?.errorCode
+            linkResult.error?.displayMessage,
+            linkResult.error?.errorCode
           )
         } else {
           result.text = getString(
             R.string.content_cancel,
-            it.metadata.status?.jsonValue ?: "unknown"
+            linkResult.metadata.status?.jsonValue ?: "unknown"
           )
         }
       }
-    )
+      else -> {
+        throw RuntimeException("Got unexpected result:$linkResult")
+      }
+    }
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    setActionBar(findViewById(R.id.toolbar))
     result = findViewById(R.id.result)
     tokenResult = findViewById(R.id.public_token_result)
 
@@ -79,38 +91,24 @@ class MainActivity : AppCompatActivity() {
     val tokenConfiguration = LinkTokenConfiguration.Builder()
       .token(linkToken)
       .build()
-    Plaid.create(
-      this.application,
-      tokenConfiguration
-    ).open(this)
+
+    // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
+    launchLinkActivity.launch(tokenConfiguration)
   }
 
   private fun onLinkTokenError(error: Throwable) {
     Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, intent)
-    if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
-      Log.i(MainActivity::class.java.simpleName, "Not handled")
-    }
-  }
-
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.menu, menu)
+    menuInflater.inflate(R.menu.menu_java, menu)
     return true
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean =
     when (item.itemId) {
-      R.id.show_java -> {
-        val intent = Intent(this@MainActivity, MainActivityJava::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        true
-      }
-      R.id.show_activity_result_contract -> {
-        val intent = Intent(this@MainActivity, MainActivityResultContractActivity::class.java)
+      R.id.show_kotlin -> {
+        val intent = Intent(this@MainActivityResultContractActivity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         true

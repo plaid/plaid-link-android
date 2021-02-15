@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Plaid Technologies, Inc. <support@plaid.com>
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/root_layout"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context=".MainActivity">
+
+  <android.widget.Toolbar
+    android:id="@+id/toolbar"
+    style="@style/PlaidToolbarStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/plaid_black_1000"
+    android:title="@string/app_name"
+    android:titleTextColor="@color/plaid_text_white"
+    app:titleTextColor="@color/plaid_text_white" />
+
+  <TextView
+    android:id="@+id/public_token_result"
+    style="@style/PlaidText.H4.Semibold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start|center"
+    android:padding="@dimen/space_2x"
+    tools:text="public_token:\npublic-sandbox-12341234" />
+
+  <TextView
+    android:id="@+id/result"
+    style="@style/PlaidText.B1.Regular"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:autoLink="all"
+    android:gravity="start|center"
+    android:padding="@dimen/space_2x"
+    android:text="@string/landing_text" />
+
+  <com.google.android.material.button.MaterialButton
+    android:id="@+id/open_link"
+    style="@style/PlaidButton.Primary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space_2x"
+    android:text="@string/open_link" />
+
+</LinearLayout>

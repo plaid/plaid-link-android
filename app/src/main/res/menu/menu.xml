@@ -1,10 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020 Plaid Technologies, Inc. <support@plaid.com>
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <item android:id="@+id/show_java"
-        android:title="@string/open_java"/>
+  <item
+    android:id="@+id/show_java"
+    android:title="@string/open_java" />
+
+  <item
+    android:id="@+id/show_activity_result_contract"
+    android:title="@string/open_activity_result_contract" />
 </menu>
