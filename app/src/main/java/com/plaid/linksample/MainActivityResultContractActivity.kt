@@ -29,7 +29,7 @@ class MainActivityResultContractActivity : AppCompatActivity() {
 
   @OptIn(PlaidActivityResultContract::class)
   // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
-  private val launchLinkActivity = this.registerForActivityResult(
+  private val openPlaidLink = this.registerForActivityResult(
     OpenPlaidLink()
   ) { linkResult: LinkResult ->
     when (linkResult) {
@@ -93,7 +93,7 @@ class MainActivityResultContractActivity : AppCompatActivity() {
       .build()
 
     // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
-    launchLinkActivity.launch(tokenConfiguration)
+    openPlaidLink.launch(tokenConfiguration)
   }
 
   private fun onLinkTokenError(error: Throwable) {

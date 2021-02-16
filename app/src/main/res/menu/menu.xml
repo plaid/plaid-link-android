@@ -11,4 +11,9 @@
   <item
     android:id="@+id/show_activity_result_contract"
     android:title="@string/open_activity_result_contract" />
+
+
+  <item
+    android:id="@+id/show_activity_result_contract_java"
+    android:title="@string/open_activity_result_contract_java" />
 </menu>

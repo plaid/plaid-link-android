@@ -115,6 +115,12 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         true
       }
+      R.id.show_activity_result_contract_java -> {
+        val intent = Intent(this@MainActivity, MainActivityResultContractActivityJava::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        true
+      }
       else -> super.onOptionsItemSelected(item)
     }
 }
