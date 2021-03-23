@@ -30,7 +30,7 @@
     <item name="android:textColor">@color/plaid_black_900</item>
   </style>
 
-  <style name="PlaidButton.Primary" parent="PlaidText.H4.Semibold">
+  <style name="PlaidButton" parent="PlaidText.H4.Semibold">
     <item name="android:padding">@dimen/space_2x</item>
     <item name="android:textColor">@color/white</item>
     <item name="android:gravity">center</item>
