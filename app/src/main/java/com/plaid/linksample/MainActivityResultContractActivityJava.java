@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.plaid.link.OpenPlaidLink;
@@ -106,6 +105,13 @@ public class MainActivityResultContractActivityJava extends AppCompatActivity {
   }
 
   private void onLinkTokenError(Throwable error) {
+    if (error instanceof java.net.ConnectException) {
+      Toast.makeText(
+          this,
+          "Please run `sh start_server.sh <client_id> <sandbox_secret>`",
+          Toast.LENGTH_LONG).show();
+      return;
+    }
     Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
   }
 
