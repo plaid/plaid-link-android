@@ -86,6 +86,10 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun onLinkTokenError(error: Throwable) {
+    if (error is java.net.ConnectException) {
+      Toast.makeText(this, "Please run `sh start_server.sh <client_id> <sandbox_secret>`", Toast.LENGTH_LONG).show()
+      return
+    }
     Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
   }
 
