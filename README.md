@@ -81,8 +81,8 @@ SOFTWARE.
 ```
 
 
-[link-sdk-version]: https://img.shields.io/bintray/v/plaid/link-android/com.plaid.link
-[link-sdk-url]: https://bintray.com/plaid/link-android/com.plaid.link
+[link-sdk-version]: https://img.shields.io/maven-central/v/com.plaid.link/sdk-core
+[link-sdk-url]: https://search.maven.org/artifact/com.plaid.link/sdk-core
 [link-android-docs]: https://plaid.com/docs/link/android/
 [plaid-signup]: https://dashboard.plaid.com/signup?email=
 [plaid-dashboard-api]: https://dashboard.plaid.com/team/api
