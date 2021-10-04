@@ -4,8 +4,10 @@
 
 package com.plaid.linksample
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -61,7 +63,6 @@ class MainActivityResultContractActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    setActionBar(findViewById(R.id.toolbar))
     result = findViewById(R.id.result)
     tokenResult = findViewById(R.id.public_token_result)
 
@@ -70,6 +71,12 @@ class MainActivityResultContractActivity : AppCompatActivity() {
       setOptionalEventListener()
       openLink()
     }
+  }
+
+  override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+    val view = super.onCreateView(name, context, attrs)
+    setActionBar(findViewById(R.id.toolbar))
+    return view
   }
 
   /**
