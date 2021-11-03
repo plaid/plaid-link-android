@@ -15,6 +15,7 @@
     android:usesCleartextTraffic="true">   <!-- `usesCleartextTraffic` is only to allow http traffic to localhost. Do not use this for production apps.-->
     <activity
       android:name=".MainActivity"
+      android:exported="true"
       android:label="@string/title_activity_main"
       android:theme="@style/AppTheme">
       <intent-filter>
@@ -27,16 +28,19 @@
 
     <activity
       android:name=".MainActivityJava"
+      android:exported="true"
       android:label="@string/title_activity_main_java"
       android:theme="@style/AppTheme" />
 
     <activity
       android:name=".MainActivityResultContractActivity"
+      android:exported="true"
       android:label="@string/title_activity_main_activity_result_contract"
       android:theme="@style/AppTheme" />
 
     <activity
       android:name=".MainActivityResultContractActivityJava"
+      android:exported="true"
       android:label="@string/title_activity_main_activity_result_contract_java"
       android:theme="@style/AppTheme" />
 
