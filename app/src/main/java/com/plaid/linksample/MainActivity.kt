@@ -13,38 +13,22 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.plaid.link.OpenPlaidLink
 import com.plaid.link.Plaid
 import com.plaid.link.configuration.LinkTokenConfiguration
-import com.plaid.link.result.LinkResultHandler
+import com.plaid.link.result.LinkExit
+import com.plaid.link.result.LinkSuccess
 import com.plaid.linksample.network.LinkTokenRequester
 
 class MainActivity : AppCompatActivity() {
 
   private lateinit var result: TextView
   private lateinit var tokenResult: TextView
-
-  private val myPlaidResultHandler by lazy {
-    LinkResultHandler(
-      onSuccess = {
-        tokenResult.text = getString(R.string.public_token_result, it.publicToken)
-        result.text = getString(R.string.content_success)
-      },
-      onExit = {
-        tokenResult.text = ""
-        if (it.error != null) {
-          result.text = getString(
-            R.string.content_exit,
-            it.error?.displayMessage,
-            it.error?.errorCode
-          )
-        } else {
-          result.text = getString(
-            R.string.content_cancel,
-            it.metadata.status?.jsonValue ?: "unknown"
-          )
-        }
-      }
-    )
+  private val linkAccountToPlaid = registerForActivityResult(OpenPlaidLink()) { result ->
+    when (result) {
+      is LinkSuccess -> showSuccess(result)
+      is LinkExit -> showFailure(result)
+    }
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,10 +63,7 @@ class MainActivity : AppCompatActivity() {
     val tokenConfiguration = LinkTokenConfiguration.Builder()
       .token(linkToken)
       .build()
-    Plaid.create(
-      this.application,
-      tokenConfiguration
-    ).open(this)
+    linkAccountToPlaid.launch(tokenConfiguration)
   }
 
   private fun onLinkTokenError(error: Throwable) {
@@ -91,13 +72,6 @@ class MainActivity : AppCompatActivity() {
       return
     }
     Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
-  }
-
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, intent)
-    if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
-      Log.i(MainActivity::class.java.simpleName, "Not handled")
-    }
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -113,18 +87,32 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         true
       }
-      R.id.show_activity_result_contract -> {
-        val intent = Intent(this@MainActivity, MainActivityResultContractActivity::class.java)
+      R.id.show_activity_result -> {
+        val intent = Intent(this@MainActivity, MainActivityStartActivityForResult::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         true
       }
-      R.id.show_activity_result_contract_java -> {
-        val intent = Intent(this@MainActivity, MainActivityResultContractActivityJava::class.java)
+      R.id.show_activity_result_java -> {
+//        val intent = Intent(this@MainActivity, MainActivityResultContractActivityJava::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         true
       }
       else -> super.onOptionsItemSelected(item)
     }
+
+  private fun showSuccess(success: LinkSuccess) {
+    tokenResult.text = getString(R.string.public_token_result, success.publicToken)
+    result.text = getString(R.string.content_success)
+  }
+
+  private fun showFailure(exit: LinkExit) {
+    tokenResult.text = ""
+    if (exit.error != null) {
+      result.text = getString(R.string.content_exit, exit.error?.displayMessage, exit.error?.errorCode)
+    } else {
+      result.text = getString(R.string.content_cancel, exit.metadata.status?.jsonValue ?: "unknown")
+    }
+  }
 }
