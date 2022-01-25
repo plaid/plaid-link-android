@@ -22,7 +22,10 @@ import com.plaid.link.result.LinkResultHandler;
 import com.plaid.linksample.network.LinkTokenRequester;
 import kotlin.Unit;
 
-
+/**
+ * Old approach to opening Plaid Link, we recommend switching over to the
+ * OpenPlaidLink ActivityResultContract instead.
+ */
 public class MainActivityStartActivityForResultJava extends AppCompatActivity {
 
   private TextView result;

@@ -18,6 +18,10 @@ import com.plaid.link.configuration.LinkTokenConfiguration
 import com.plaid.link.result.LinkResultHandler
 import com.plaid.linksample.network.LinkTokenRequester
 
+/**
+ * Old approach to opening Plaid Link, we recommend switching over to the
+ * OpenPlaidLink ActivityResultContract instead.
+ */
 class MainActivityStartActivityForResult : AppCompatActivity() {
 
   private lateinit var result: TextView

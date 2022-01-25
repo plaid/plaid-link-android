@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         true
       }
       R.id.show_activity_result_java -> {
-//        val intent = Intent(this@MainActivity, MainActivityResultContractActivityJava::class.java)
+        val intent = Intent(this@MainActivity, MainActivityStartActivityForResultJava::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         true
