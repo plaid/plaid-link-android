@@ -13,56 +13,50 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.plaid.link.OpenPlaidLink;
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
-import com.plaid.link.result.LinkExit;
-import com.plaid.link.result.LinkSuccess;
+import com.plaid.link.result.LinkResultHandler;
 import com.plaid.linksample.network.LinkTokenRequester;
-
 import kotlin.Unit;
 
-
-public class MainActivityResultContractActivityJava extends AppCompatActivity {
+/**
+ * Old approach to opening Plaid Link, we recommend switching over to the
+ * OpenPlaidLink ActivityResultContract instead.
+ */
+public class MainActivityStartActivityForResultJava extends AppCompatActivity {
 
   private TextView result;
   private TextView tokenResult;
 
-  // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
-  private ActivityResultLauncher<LinkTokenConfiguration> openPlaidLink =
-      this.registerForActivityResult(
-          new OpenPlaidLink(),
-          linkResult -> {
-            if (linkResult instanceof LinkSuccess) {
-              String tokenString = ((LinkSuccess) linkResult).getPublicToken();
-              tokenResult.setText(getString(
-                  R.string.public_token_result,
-                  tokenString));
-              result.setText(getString(
-                  R.string.content_success));
-            } else if (linkResult instanceof LinkExit) {
-              LinkExit linkExit = (LinkExit) linkResult;
-              tokenResult.setText("");
-              if (linkExit.getError() != null) {
-                result.setText(getString(
-                    R.string.content_exit,
-                    linkExit.getError().getDisplayMessage(),
-                    linkExit.getError().getErrorCode()));
-              } else {
-                result.setText(getString(
-                    R.string.content_cancel,
-                    linkExit.getMetadata().getStatus() != null ? linkExit.getMetadata()
-                        .getStatus()
-                        .getJsonValue() : "unknown"));
-              }
-            } else {
-              throw new RuntimeException("Got unexpected result:" + result);
-            }
-          });
+  private LinkResultHandler myPlaidResultHandler = new LinkResultHandler(
+      linkSuccess -> {
+        tokenResult.setText(getString(
+            R.string.public_token_result,
+            linkSuccess.getPublicToken()));
+        result.setText(getString(
+            R.string.content_success));
+        return Unit.INSTANCE;
+      },
+      linkExit -> {
+        tokenResult.setText("");
+        if (linkExit.getError() != null) {
+          result.setText(getString(
+              R.string.content_exit,
+              linkExit.getError().getDisplayMessage(),
+              linkExit.getError().getErrorCode()));
+        } else {
+          result.setText(getString(
+              R.string.content_cancel,
+              linkExit.getMetadata().getStatus() != null ? linkExit.getMetadata()
+                  .getStatus()
+                  .getJsonValue() : "unknown"));
+        }
+        return Unit.INSTANCE;
+      }
+  );
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +92,12 @@ public class MainActivityResultContractActivityJava extends AppCompatActivity {
   }
 
   private void onLinkTokenSuccess(String token) {
-    // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
-    openPlaidLink.launch(new LinkTokenConfiguration.Builder()
-        .token(token)
-        .build());
+    Plaid.create(
+        getApplication(),
+        new LinkTokenConfiguration.Builder()
+            .token(token)
+            .build())
+        .open(this);
   }
 
   private void onLinkTokenError(Throwable error) {
@@ -113,6 +109,14 @@ public class MainActivityResultContractActivityJava extends AppCompatActivity {
       return;
     }
     Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
+      Log.i(MainActivityJava.class.getSimpleName(), "Not handled");
+    }
   }
 
   @Override

@@ -4,10 +4,8 @@
 
 package com.plaid.linksample
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -15,49 +13,42 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.plaid.link.OpenPlaidLink
 import com.plaid.link.Plaid
-import com.plaid.link.PlaidActivityResultContract
 import com.plaid.link.configuration.LinkTokenConfiguration
-import com.plaid.link.result.LinkExit
-import com.plaid.link.result.LinkResult
-import com.plaid.link.result.LinkSuccess
+import com.plaid.link.result.LinkResultHandler
 import com.plaid.linksample.network.LinkTokenRequester
 
-class MainActivityResultContractActivity : AppCompatActivity() {
+/**
+ * Old approach to opening Plaid Link, we recommend switching over to the
+ * OpenPlaidLink ActivityResultContract instead.
+ */
+class MainActivityStartActivityForResult : AppCompatActivity() {
 
   private lateinit var result: TextView
   private lateinit var tokenResult: TextView
 
-  @OptIn(PlaidActivityResultContract::class)
-  // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
-  private val openPlaidLink = this.registerForActivityResult(
-    OpenPlaidLink()
-  ) { linkResult: LinkResult ->
-    when (linkResult) {
-      is LinkSuccess -> {
-        tokenResult.text = getString(R.string.public_token_result, linkResult.publicToken)
+  private val myPlaidResultHandler by lazy {
+    LinkResultHandler(
+      onSuccess = {
+        tokenResult.text = getString(R.string.public_token_result, it.publicToken)
         result.text = getString(R.string.content_success)
-      }
-      is LinkExit -> {
+      },
+      onExit = {
         tokenResult.text = ""
-        if (linkResult.error != null) {
+        if (it.error != null) {
           result.text = getString(
             R.string.content_exit,
-            linkResult.error?.displayMessage,
-            linkResult.error?.errorCode
+            it.error?.displayMessage,
+            it.error?.errorCode
           )
         } else {
           result.text = getString(
             R.string.content_cancel,
-            linkResult.metadata.status?.jsonValue ?: "unknown"
+            it.metadata.status?.jsonValue ?: "unknown"
           )
         }
       }
-      else -> {
-        throw RuntimeException("Got unexpected result:$linkResult")
-      }
-    }
+    )
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,12 +62,6 @@ class MainActivityResultContractActivity : AppCompatActivity() {
       setOptionalEventListener()
       openLink()
     }
-  }
-
-  override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-    val view = super.onCreateView(name, context, attrs)
-    setActionBar(findViewById(R.id.toolbar))
-    return view
   }
 
   /**
@@ -98,9 +83,10 @@ class MainActivityResultContractActivity : AppCompatActivity() {
     val tokenConfiguration = LinkTokenConfiguration.Builder()
       .token(linkToken)
       .build()
-
-    // Experimental API using ActivityResultContract for androidx.fragment:1.3.0+
-    openPlaidLink.launch(tokenConfiguration)
+    Plaid.create(
+      this.application,
+      tokenConfiguration
+    ).open(this)
   }
 
   private fun onLinkTokenError(error: Throwable) {
@@ -111,19 +97,11 @@ class MainActivityResultContractActivity : AppCompatActivity() {
     Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
   }
 
-  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.menu_java, menu)
-    return true
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, intent)
+    if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
+      Log.i(MainActivity::class.java.simpleName, "Not handled")
+    }
   }
 
-  override fun onOptionsItemSelected(item: MenuItem): Boolean =
-    when (item.itemId) {
-      R.id.show_kotlin -> {
-        val intent = Intent(this@MainActivityResultContractActivity, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        true
-      }
-      else -> super.onOptionsItemSelected(item)
-    }
 }

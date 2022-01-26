@@ -13,15 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.plaid.link.OpenPlaidLink;
 import com.plaid.link.Plaid;
 import com.plaid.link.configuration.LinkTokenConfiguration;
-import com.plaid.link.result.LinkResultHandler;
+import com.plaid.link.result.LinkExit;
+import com.plaid.link.result.LinkSuccess;
 import com.plaid.linksample.network.LinkTokenRequester;
-
 import kotlin.Unit;
 
 
@@ -30,32 +30,34 @@ public class MainActivityJava extends AppCompatActivity {
   private TextView result;
   private TextView tokenResult;
 
-  private LinkResultHandler myPlaidResultHandler = new LinkResultHandler(
-      linkSuccess -> {
-        tokenResult.setText(getString(
-            R.string.public_token_result,
-            linkSuccess.getPublicToken()));
-        result.setText(getString(
-            R.string.content_success));
-        return Unit.INSTANCE;
-      },
-      linkExit -> {
-        tokenResult.setText("");
-        if (linkExit.getError() != null) {
-          result.setText(getString(
-              R.string.content_exit,
-              linkExit.getError().getDisplayMessage(),
-              linkExit.getError().getErrorCode()));
+  private ActivityResultLauncher<LinkTokenConfiguration> linkAccountToPlaid = registerForActivityResult(
+      new OpenPlaidLink(),
+      result -> {
+        if (result instanceof LinkSuccess) {
+          showSuccess((LinkSuccess) result);
         } else {
-          result.setText(getString(
-              R.string.content_cancel,
-              linkExit.getMetadata().getStatus() != null ? linkExit.getMetadata()
-                  .getStatus()
-                  .getJsonValue() : "unknown"));
+          showFailure((LinkExit) result);
         }
-        return Unit.INSTANCE;
-      }
-  );
+      });
+
+  private void showSuccess(LinkSuccess success) {
+    tokenResult.setText(getString(R.string.public_token_result, success.getPublicToken()));
+    result.setText(getString(R.string.content_success));
+  }
+
+  private void showFailure(LinkExit exit) {
+    tokenResult.setText("");
+    if (exit.getError() != null) {
+      result.setText(getString(
+          R.string.content_exit,
+          exit.getError().getDisplayMessage(),
+          exit.getError().getErrorCode()));
+    } else {
+      result.setText(getString(
+          R.string.content_cancel,
+          exit.getMetadata().getStatus() != null ? exit.getMetadata().getStatus().getJsonValue() : "unknown"));
+    }
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +93,10 @@ public class MainActivityJava extends AppCompatActivity {
   }
 
   private void onLinkTokenSuccess(String token) {
-    Plaid.create(
-        getApplication(),
-        new LinkTokenConfiguration.Builder()
-            .token(token)
-            .build())
-        .open(this);
+    LinkTokenConfiguration configuration = new LinkTokenConfiguration.Builder()
+        .token(token)
+        .build();
+    linkAccountToPlaid.launch(configuration);
   }
 
   private void onLinkTokenError(Throwable error) {
@@ -108,14 +108,6 @@ public class MainActivityJava extends AppCompatActivity {
       return;
     }
     Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show();
-  }
-
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
-      Log.i(MainActivityJava.class.getSimpleName(), "Not handled");
-    }
   }
 
   @Override

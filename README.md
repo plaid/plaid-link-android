@@ -36,7 +36,7 @@ OR
 # Features
 - How to integrate the Plaid Link sdk: `build.gradle` files, `link_token` configuration, `Plaid` initialization
 - Kotlin and Java sample Activity that show how to start Link and receive a result
-- Use of `PlaidLinkResultHandler` for easy handling of Link results
+- Use of `OpenPlaidLink` `ActivityResultContract` for easy handling of Link results
 - _Optional_ use of `LinkEventListener` to get events from Link
 
 Have a look at our [main documentation][link-android-docs] for all Plaid Link SDK features.

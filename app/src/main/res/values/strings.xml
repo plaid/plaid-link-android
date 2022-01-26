@@ -36,8 +36,8 @@
   <string name="open_java">Open Java demo</string>
   <string name="open_kotlin">Open Kotlin demo</string>
   <string name="open_link">Open Link</string>
-  <string name="open_activity_result_contract">Open ActivityResultContract demo (Kotlin)</string>
-  <string name="title_activity_main_activity_result_contract">Link demo (ActivityResultContract)</string>
-  <string name="open_activity_result_contract_java">Open Activity Result Contract demo (Java)</string>
-  <string name="title_activity_main_activity_result_contract_java">Link demo (ActivityResultContract Java)</string>
+  <string name="open_activity_result">Open startActivityForResult demo (Kotlin)</string>
+  <string name="title_activity_main_activity_result_contract">Link demo (startActivityForResult)</string>
+  <string name="open_activity_result_java">Open startActivityForResult demo (Java)</string>
+  <string name="title_activity_main_activity_result_contract_java">Link demo (startActivityForResult Java)</string>
 </resources>

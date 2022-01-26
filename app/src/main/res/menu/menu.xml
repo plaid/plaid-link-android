@@ -9,11 +9,11 @@
     android:title="@string/open_java" />
 
   <item
-    android:id="@+id/show_activity_result_contract"
-    android:title="@string/open_activity_result_contract" />
+    android:id="@+id/show_activity_result"
+    android:title="@string/open_activity_result" />
 
 
   <item
-    android:id="@+id/show_activity_result_contract_java"
-    android:title="@string/open_activity_result_contract_java" />
+    android:id="@+id/show_activity_result_java"
+    android:title="@string/open_activity_result_java" />
 </menu>
