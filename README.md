@@ -8,6 +8,7 @@ This sample app will show you how Link Android SDK can integrate with your own a
 
 > Detailed instructions on how to integrate with Plaid Link for Android in your app can be found in our [main documentation][link-android-docs].
 
+
 # Getting Started
 To run the sample app, you'll need a Plaid account. You can create one on [our website][plaid-signup].
 
@@ -42,6 +43,8 @@ OR
 Have a look at our [main documentation][link-android-docs] for all Plaid Link SDK features.
 
 # Releases
+
+⚠️ Android Link SDK versions prior to 3.5 (released August 2021) will no longer work with the Plaid API as of November 1, 2022. If you are using a version of the Android Link SDK earlier than 3.5, you **must** upgrade to version 3.5 or later before November 1, 2022.
 
 Our [change log][changelog] has release history.	
 
