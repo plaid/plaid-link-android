@@ -97,6 +97,7 @@ class MainActivityStartActivityForResult : AppCompatActivity() {
     Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
   }
 
+  @Suppress("DEPRECATION")
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, intent)
     if (!myPlaidResultHandler.onActivityResult(requestCode, resultCode, data)) {
