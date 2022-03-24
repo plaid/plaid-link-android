@@ -1,7 +1,7 @@
 package com.plaid.linksample.network
 
 import com.google.gson.annotations.SerializedName
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.POST
 
 /**
