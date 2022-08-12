@@ -43,9 +43,6 @@ OR
 Have a look at our [main documentation][link-android-docs] for all Plaid Link SDK features.
 
 # Releases
-
-⚠️ Android Link SDK versions prior to 3.5.0 (released August 2021) will no longer work with the Plaid API as of November 1, 2022. If you are using a version of the Android Link SDK earlier than 3.5.0, you **must** upgrade to version 3.5.0 or later before November 1, 2022.
-
 Our [change log][changelog] has release history.	
 
 We create release candidates (e.g. 3.2.0-rc1) as beta previews for developers. These are helpful for customers who either are 1. waiting for a specific fix or 2. extremely eager for specific features. They do not hold the same quality guarantee as our official releases, and should NOT be used in production. The official releases come ~2 weeks after the first release candidate (rc1).
