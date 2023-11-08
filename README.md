@@ -53,6 +53,8 @@ The latest version of Plaid Link is [![version][link-sdk-version]][link-sdk-url]
 implementation("com.plaid.link:sdk-core:<insert latest version>")
 ```
 
+R8 and ProGuard rules are already bundled in our AAR and will be used automatically.
+
 # Migration Guide
 
 ### Changes from SDK 3.x to 4.0
@@ -69,8 +71,6 @@ If your integration relies on `extraParams`, you must now configure these parame
 
 ### 3. Upgrade to Kotlin 1.8
 The Link Android SDK version of Kotlin has been upgraded to 1.8 and may need to be updated in your project.
-
-R8 and ProGuard rules are already bundled in our AAR and will be used automatically.
 
 # License
 ```
