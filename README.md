@@ -53,6 +53,23 @@ The latest version of Plaid Link is [![version][link-sdk-version]][link-sdk-url]
 implementation("com.plaid.link:sdk-core:<insert latest version>")
 ```
 
+# Migration Guide
+
+### Changes from SDK 3.x to 4.0
+
+#### 1. Authentication Method Changes
+**BREAKING**: Removed deprecated support for public key authentication.
+
+If your integration is using public key authentication, it's essential to migrate to Link Tokens. This change does not affect you if you've already made this transition. For detailed instructions, refer to Plaid's [migration guide](https://plaid.com/docs/link-token-migration-guide).
+
+#### 2. Open Options Configuration
+**BREAKING**: Removed `extraParams(extraParams: Map<String, String>)` setter method from  `LinkTokenConfiguration#Builder`.
+
+If your integration relies on `extraParams`, you must now configure these parameters while creating your [Link Tokens](https://plaid.com/docs/api/tokens/). Update your implementation accordingly.
+
+### 3. Upgrade to Kotlin 1.8
+The Link Android SDK version of Kotlin has been upgraded to 1.8 and may need to be updated in your project.
+
 R8 and ProGuard rules are already bundled in our AAR and will be used automatically.
 
 # License
