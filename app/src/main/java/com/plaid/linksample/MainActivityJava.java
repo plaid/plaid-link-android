@@ -10,14 +10,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.plaid.link.OpenPlaidLink;
+import com.google.android.material.button.MaterialButton;
+import com.plaid.link.FastOpenPlaidLink;
 import com.plaid.link.Plaid;
+import com.plaid.link.PlaidHandler;
 import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.result.LinkExit;
 import com.plaid.link.result.LinkSuccess;
@@ -29,9 +30,13 @@ public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
   private TextView tokenResult;
+  private MaterialButton prepareButton;
+  private MaterialButton openButton;
 
-  private ActivityResultLauncher<LinkTokenConfiguration> linkAccountToPlaid = registerForActivityResult(
-      new OpenPlaidLink(),
+  private PlaidHandler plaidHandler = null;
+
+  private ActivityResultLauncher<PlaidHandler> linkAccountToPlaid = registerForActivityResult(
+      new FastOpenPlaidLink(),
       result -> {
         if (result instanceof LinkSuccess) {
           showSuccess((LinkSuccess) result);
@@ -66,11 +71,21 @@ public class MainActivityJava extends AppCompatActivity {
     result = findViewById(R.id.result);
     tokenResult = findViewById(R.id.public_token_result);
 
-    View button = findViewById(R.id.open_link);
-    button.setOnClickListener(view -> {
+    prepareButton = findViewById(R.id.prepare_link);
+    prepareButton.setOnClickListener(view -> {
       setOptionalEventListener();
+      prepareLink();
+    });
+
+    openButton = findViewById(R.id.open_link);
+    openButton.setOnClickListener(view -> {
       openLink();
     });
+  }
+
+  private void prepareLink() {
+    LinkTokenRequester.INSTANCE.getToken()
+        .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
   }
 
   /**
@@ -88,15 +103,18 @@ public class MainActivityJava extends AppCompatActivity {
    * <a href="https://plaid.com/docs/link/android/#parameter-reference">parameter reference</>
    */
   private void openLink() {
-    LinkTokenRequester.INSTANCE.getToken()
-        .subscribe(this::onLinkTokenSuccess, this::onLinkTokenError);
+    prepareButton.setEnabled(true);
+    openButton.setEnabled(false);
+    linkAccountToPlaid.launch(plaidHandler);
   }
 
   private void onLinkTokenSuccess(String token) {
+    prepareButton.setEnabled(false);
+    openButton.setEnabled(true);
     LinkTokenConfiguration configuration = new LinkTokenConfiguration.Builder()
         .token(token)
         .build();
-    linkAccountToPlaid.launch(configuration);
+    plaidHandler = Plaid.create(this.getApplication(), configuration);
   }
 
   private void onLinkTokenError(Throwable error) {

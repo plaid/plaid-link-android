@@ -30,10 +30,19 @@
     android:text="@string/landing_text" />
 
   <com.google.android.material.button.MaterialButton
+    android:id="@+id/prepare_link"
+    style="@style/PlaidButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space_2x"
+    android:text="@string/prepare_link" />
+
+  <com.google.android.material.button.MaterialButton
     android:id="@+id/open_link"
     style="@style/PlaidButton"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:enabled="false"
     android:text="@string/open_link" />
 
 </LinearLayout>

@@ -7,13 +7,13 @@ package com.plaid.linksample
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.button.MaterialButton
 import com.plaid.link.Plaid
+import com.plaid.link.PlaidHandler
 import com.plaid.link.configuration.LinkTokenConfiguration
 import com.plaid.link.result.LinkResultHandler
 import com.plaid.linksample.network.LinkTokenRequester
@@ -26,6 +26,9 @@ class MainActivityStartActivityForResult : AppCompatActivity() {
 
   private lateinit var result: TextView
   private lateinit var tokenResult: TextView
+  private lateinit var prepareButton: MaterialButton
+  private lateinit var openButton: MaterialButton
+  private var plaidHandler: PlaidHandler? = null
 
   private val myPlaidResultHandler by lazy {
     LinkResultHandler(
@@ -57,13 +60,22 @@ class MainActivityStartActivityForResult : AppCompatActivity() {
     result = findViewById(R.id.result)
     tokenResult = findViewById(R.id.public_token_result)
 
-    val button = findViewById<View>(R.id.open_link)
-    button.setOnClickListener {
+    prepareButton = findViewById(R.id.prepare_link)
+    prepareButton.setOnClickListener {
+      setOptionalEventListener()
+      prepareLink()
+    }
+
+    openButton = findViewById(R.id.open_link)
+    openButton.setOnClickListener {
       setOptionalEventListener()
       openLink()
     }
   }
 
+  private fun prepareLink() {
+    LinkTokenRequester.token.subscribe(::onLinkTokenSuccess, ::onLinkTokenError)
+  }
   /**
    * Optional, set an [event listener](https://plaid.com/docs/link/android/#handling-onevent).
    */
@@ -76,17 +88,21 @@ class MainActivityStartActivityForResult : AppCompatActivity() {
    * [parameter reference](https://plaid.com/docs/link/android/#parameter-reference).
    */
   private fun openLink() {
-    LinkTokenRequester.token.subscribe(::onLinkTokenSuccess, ::onLinkTokenError)
+    prepareButton.isEnabled = true
+    openButton.isEnabled = false
+    plaidHandler?.open(this)
   }
 
   private fun onLinkTokenSuccess(linkToken: String) {
     val tokenConfiguration = LinkTokenConfiguration.Builder()
       .token(linkToken)
       .build()
-    Plaid.create(
+    plaidHandler = Plaid.create(
       this.application,
       tokenConfiguration
-    ).open(this)
+    )
+    prepareButton.isEnabled = false
+    openButton.isEnabled = true
   }
 
   private fun onLinkTokenError(error: Throwable) {
