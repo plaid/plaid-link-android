@@ -55,6 +55,14 @@ implementation("com.plaid.link:sdk-core:<insert latest version>")
 
 R8 and ProGuard rules are already bundled in our AAR and will be used automatically.
 
+## Upgrading
+
+Plaid releases updates to the SDK approximately every few months. For the best user experience, we recommend using the latest version of the SDK.
+
+Major SDK versions are released annually. SDK versions are supported for two years; with each major SDK release, Plaid will stop officially supporting any previous SDK versions that are more than two years old. 
+
+While these older versions are expected to continue to work without disruption, Plaid will not provide assistance with unsupported SDK versions. 
+
 # Migration Guide
 
 ### Changes from SDK 3.x to 4.0
