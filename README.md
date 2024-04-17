@@ -117,3 +117,4 @@ SOFTWARE.
 [get-link-token-java]: app/src/main/java/com/plaid/linksample/MainActivityJava.java
 [npm-installation]: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 [link-quickstart]: https://plaid.com/docs/quickstart/
+
