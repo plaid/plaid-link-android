@@ -1,8 +1,8 @@
-/*
+hi/*
  * Copyright (c) 2020 Plaid Technologies, Inc. <support@plaid.com>
  */
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.application.android'
 apply plugin: 'kotlin-android'
 
 android {
