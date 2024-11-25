@@ -1,4 +1,4 @@
-package com.plaid.linksample.network
+package com.plaid.links.network
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
