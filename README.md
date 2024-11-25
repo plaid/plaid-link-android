@@ -113,7 +113,7 @@ SOFTWARE.
 [plaid-dashboard-api]: https://dashboard.plaid.com/team/api
 [plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
 [changelog]: https://github.com/plaid/plaid-link-android/releases
-[get-link-token-kotlin]: app/src/main/java/com/plaid/linksample/MainActivity.kt
-[get-link-token-java]: app/src/main/java/com/plaid/linksample/MainActivityJava.java
+[get-link-token-kotlin]: src/main/java/com/plaid/linksample/MainActivity.kt
+[get-link-token-java]: src/main/java/com/plaid/linksample/MainActivityJava.java
 [npm-installation]: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 [link-quickstart]: https://plaid.com/docs/quickstart/
