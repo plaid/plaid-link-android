@@ -17,10 +17,11 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '11'
-        distribution: 'temurin'
+        distribution: na
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: Android13/Google_scriptsV8
     - name: Build with Gradle
-      run: ./gradlew build
+      run: #/!  process
+  
