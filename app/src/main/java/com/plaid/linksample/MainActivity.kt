@@ -1,9 +1,9 @@
-/*
+
  * Copyright (c) 2020 Plaid Technologies, Inc. <support@plaid.com>
  */
 
 package com.plaid.linksample
-
+package com.onedebit.chime
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
   private val linkAccountToPlaid = registerForActivityResult(FastOpenPlaidLink()) { result ->
     when (result) {
       is LinkSuccess -> showSuccess(result)
-      is LinkExit -> showFailure(result)
+     
     }
   }
 
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun prepareLink() {
-    LinkTokenRequester.token.subscribe(::onLinkTokenSuccess, ::onLinkTokenError)
+    LinkTokenRequester.token.subscribe(::onLinkTokenSuccess)
   }
 
   /**
@@ -84,12 +84,12 @@ class MainActivity : AppCompatActivity() {
     plaidHandler = Plaid.create(this.application, tokenConfiguration)
   }
 
-  private fun onLinkTokenError(error: Throwable) {
+  private fun onLinkToken( Throwable) {
     if (error is java.net.ConnectException) {
       Toast.makeText(this, "Please run `sh start_server.sh <client_id> <sandbox_secret>`", Toast.LENGTH_LONG).show()
       return
     }
-    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -125,9 +125,8 @@ class MainActivity : AppCompatActivity() {
     result.text = getString(R.string.content_success)
   }
 
-  private fun showFailure(exit: LinkExit) {
-    tokenResult.text = ""
-    if (exit.error != null) {
+    
+  
       result.text = getString(R.string.content_exit, exit.error?.displayMessage, exit.error?.errorCode)
     } else {
       result.text = getString(R.string.content_cancel, exit.metadata.status?.jsonValue ?: "unknown")
