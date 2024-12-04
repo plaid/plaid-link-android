@@ -1,6 +1,6 @@
-{"Package:com.onedebit.chime"
+{"Android:com.onedebit.chime"
   "Package:secure.serve.mobile"
   "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
+  "features": 
   }
 }
