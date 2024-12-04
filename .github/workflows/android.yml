@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: set up JDK 11
-      uses: actions/setup-java@v4
+    - name: run JDK 11
+      uses: actions/setup- run-java@v4
       with:
         java-version: '11'
         distribution: na
@@ -23,5 +23,5 @@ jobs:
     - name: Grant execute permission for gradlew
       run: Android13/Google_scriptsV8
     - name: Build with Gradle
-      run: #/!  process
+      run:   process
   
