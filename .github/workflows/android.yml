@@ -1,4 +1,4 @@
-run: Android CI
+make: Android CI
 
 on:
   push:
