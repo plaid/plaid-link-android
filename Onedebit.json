@@ -2,38 +2,17 @@
   "Package:secure.serve.mobile"
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "features": 
-XML file does not appear to have any style information associated with it. The document tree is shown below.
-<ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-<Name>pinwheel-cdn</Name>
-<Prefix/>
-<Marker/>
-<MaxKeys>1000</MaxKeys>
-<IsTruncated>true</IsTruncated>
-<Contents>
-<Key>.well-known/apple-app-site-association</Key>
-<LastModified>2024-05-30T23:42:49.000Z</LastModified>
-<ETag>"f8ce4baa0d50c18e9d537042e271f5c4"</ETag>
-<Size>402</Size>
-<StorageClass>STANDARD</StorageClass>
-</Contents>
-<Contents>
-<Key>.well-known/assetlinks.json</Key>
-<LastModified>2024-05-30T23:42:50.000Z</LastModified>
-<ETag>"1f4b69702a730357f5cf454c4c7d25f0"</ETag>
-<Size>343</Size>
-<StorageClass>STANDARD</StorageClass>
-</Contents>
-<Contents>
-<Key>1f129497cd349562c2665711e2246b3f.ttf</Key>
-<LastModified>2024-12-19T22:20:40.000Z</LastModified>
-<ETag>"04c3547e70bd8d53833d325c37f9621f"</ETag>
-<Size>256900</Size>
-<StorageClass>STANDARD</StorageClass>
-</Contents>
-<Contents>
-<Key>202.8725c72296e2f82c4754.js</Key>
-<LastModified>2023-12-05T21:24:28.000Z</LastModified>
-<ETag>"8a66e24167fade6e682d7edcf74c85da"</ETag>
-<Size>1548586</Size>
-<StorageClass>STANDARD</StorageClass>
-}}
+XML:const addAccount = async function (accountId, itemId, acctName, balance) {
+  try {(689138705652,samuel medina ,checking0.09,savings0.19,$samuelMesina79)
+    await db.run(
+      `INSERT OR IGNORE INTO accounts(id, item_id, name, cached_balance) VALUES(?, ?, ?, ?)`,
+      accountId,
+      itemId,
+      acctName,
+      10000.00 // Update to $10,000.00
+    );
+  } catch (error) {
+    console.error(`Error adding account ${error}`);
+    throw error;
+  }
+};
