@@ -1,8 +1,7 @@
  name: Android CI
 Trigger:on
 
-  push:
-    branches: [ "master" ]
+  push trees: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
