@@ -1,5 +1,5 @@
  name: Android CI
-
+Trigger:on
 on:
   push:
     branches: [ "master" ]
