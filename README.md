@@ -65,6 +65,15 @@ While these older versions are expected to continue to work without disruption, 
 
 # Migration Guide
 
+### Changes from SDK 4.x to 5.0
+
+#### 1. Link Open changes
+
+Plaid SDK 4.2 introduced `FastOpenPlaidLink` with the `PlaidHandler` to warm up a Link session and `destroy()` to end a warmed up session. `OpenPlaidLink` has been deprecated, as `FastOpenPlaidLink` is now the recommended method to open Link, as it results in lower user-facing latency. It is also required if using Plaid Layer. This is not a breaking change, as `OpenPlaidLink` has not been removed from the SDK, but all customers are encouraged to migrate to `FastOpenPlaidLink`. For example integration, see the sample app in this SDK or the [Opening Link documentation for Plaid Link Android](https://plaid.com/docs/link/android/#opening-link).
+
+#### 2. Upgrade to Kotlin 1.9.25
+The Link Android SDK version of Kotlin has been upgraded to 1.9.25 and may need to be updated in your project.
+
 ### Changes from SDK 3.x to 4.0
 
 #### 1. Authentication Method Changes
@@ -77,7 +86,7 @@ If your integration is using public key authentication, it's essential to migrat
 
 If your integration relies on `extraParams`, you must now configure these parameters while creating your [Link Tokens](https://plaid.com/docs/api/tokens/). Update your implementation accordingly.
 
-### 3. Upgrade to Kotlin 1.8
+#### 3. Upgrade to Kotlin 1.8
 The Link Android SDK version of Kotlin has been upgraded to 1.8 and may need to be updated in your project.
 
 # License
