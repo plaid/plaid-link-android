@@ -16,16 +16,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
-import com.plaid.link.FastOpenPlaidLink;
+import com.plaid.link.OpenPlaidLink;
 import com.plaid.link.Plaid;
 import com.plaid.link.PlaidHandler;
 import com.plaid.link.configuration.LinkTokenConfiguration;
 import com.plaid.link.result.LinkExit;
 import com.plaid.link.result.LinkSuccess;
 import com.plaid.linksample.network.LinkTokenRequester;
-import kotlin.Unit;
-
-
 public class MainActivityJava extends AppCompatActivity {
 
   private TextView result;
@@ -36,7 +33,7 @@ public class MainActivityJava extends AppCompatActivity {
   private PlaidHandler plaidHandler = null;
 
   private ActivityResultLauncher<PlaidHandler> linkAccountToPlaid = registerForActivityResult(
-      new FastOpenPlaidLink(),
+      new OpenPlaidLink(),
       result -> {
         if (result instanceof LinkSuccess) {
           showSuccess((LinkSuccess) result);
@@ -92,10 +89,7 @@ public class MainActivityJava extends AppCompatActivity {
    * Optional, set an <a href="https://plaid.com/docs/link/android/#handling-onevent">event listener</a>.
    */
   private void setOptionalEventListener() {
-    Plaid.setLinkEventListener(linkEvent -> {
-      Log.i("Event", linkEvent.toString());
-      return Unit.INSTANCE;
-    });
+    Plaid.setLinkEventListener(linkEvent -> Log.i("Event", linkEvent.toString()));
   }
 
   /**
@@ -135,17 +129,14 @@ public class MainActivityJava extends AppCompatActivity {
     return true;
   }
 
-  @SuppressWarnings("SwitchStatementWithTooFewBranches")
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.show_kotlin:
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
+    if (item.getItemId() == R.id.show_kotlin) {
+      Intent intent = new Intent(this, MainActivity.class);
+      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+      startActivity(intent);
+      return true;
     }
+    return super.onOptionsItemSelected(item);
   }
 }
