@@ -1,12 +1,15 @@
 # Plaid Link Sample Android App [![version][link-sdk-version]][link-sdk-url]
-This sample app will show you how Link Android SDK can integrate with your own app in both Kotlin and Java. Check out [the benefits](./docs/sdk-vs-webview-comparison.md) of using the SDK. 
+This sample app shows how the Link Android SDK integrates with your own app. It's built with Jetpack
+Compose and demonstrates four Link flows — Standard Link, Headless, Layer, and Embedded — each on its
+own screen. Check out [the benefits](./docs/sdk-vs-webview-comparison.md) of using the SDK.
 
 
 <p align="center">
   <img src="docs/link_demo.gif" loading="lazy" alt="Link demo gif" height="512" />
 </p>
 
-> Detailed instructions on how to integrate with Plaid Link for Android in your app can be found in our [main documentation][link-android-docs].
+> Detailed instructions on how to integrate with Plaid Link for Android can be found in our [main documentation][link-android-docs].
+> Upgrading from 5.x? See the [v6 migration guide](./v6-migration-guide.md).
 
 
 # Getting Started
@@ -18,32 +21,29 @@ To run the sample app, you'll need a Plaid account. You can create one on [our w
 3. Enter the sample app package name: `com.plaid.linksample`
 4. Click "Save Changes", you may be prompted to re-enter your password
 
-## 2a. Generate a link_token and add it to the sample app
-1. Clone the sample repository
-2. Curl [/link/token/create](https://plaid.com/docs/#create-link-token) to create a new link_token
-3. Copy and paste the link_token into the [kotlin][get-link-token-kotlin] or [java][get-link-token-java] LinkTokenRequester's `getToken()` function.
+## 2. Provide a link_token
+Each screen has its own **Link token** field. Create a token with
+[/link/token/create](https://plaid.com/docs/#create-link-token) and paste it into the field.
 
-OR
-
-## 2b. Run the token server (imitation [backend server][link-quickstart])
-1. [Install npm][npm-installation]
-2. Copy your client id and secret from your [Plaid Dashboard][plaid-dashboard-keys] keys page
-3. Run `./start_server.sh ${CLIENT_ID} ${SECRET}` but replace `client_id` and `secret` with values from your dashboard account.
-4. Server is now running on `localhost:8000`
+A standard `transactions` token works for **Standard Link** and **Embedded**. **Headless** and
+**Layer** need product-specific tokens (see the note on each screen).
 
 ## 3. Run the sample application
 1. 🚀
 
 # Features
-- How to integrate the Plaid Link sdk: `build.gradle` files, `link_token` configuration, `Plaid` initialization
-- Kotlin and Java sample Activity that show how to start Link and receive a result
-- Use of `OpenPlaidLink` `ActivityResultContract` for easy handling of Link results
-- _Optional_ use of `LinkEventListener` to get events from Link
+- Integrating the SDK: `build.gradle` setup, `link_token` configuration, and session creation
+- The session API for all four flows: `createPlaidLinkSession`, `createPlaidHeadlessSession`,
+  `createPlaidLayerSession`, and `createPlaidEmbeddedLinkView`
+- Opening Link with the `OpenPlaidLink` `ActivityResultContract`
+- Receiving the typed `LinkResult` from the `OpenPlaidLink` launcher callback
+- Subscribing to Link events with `Plaid.setLinkEventListener`
+- Surviving process death during OAuth: each flow registers its result launcher in `onCreate` so results are re-delivered, not dropped
 
 Have a look at our [main documentation][link-android-docs] for all Plaid Link SDK features.
 
 # Releases
-Our [change log][changelog] has release history.	
+Our [change log][changelog] has release history.
 
 We create release candidates (e.g. 3.2.0-rc1) as beta previews for developers. These are helpful for customers who either are 1. waiting for a specific fix or 2. extremely eager for specific features. They do not hold the same quality guarantee as our official releases, and should NOT be used in production. The official releases come ~2 weeks after the first release candidate (rc1).
 
@@ -59,11 +59,19 @@ R8 and ProGuard rules are already bundled in our AAR and will be used automatica
 
 Plaid releases updates to the SDK approximately every few months. For the best user experience, we recommend using the latest version of the SDK.
 
-Major SDK versions are released annually. SDK versions are supported for two years; with each major SDK release, Plaid will stop officially supporting any previous SDK versions that are more than two years old. 
+Major SDK versions are released annually. SDK versions are supported for two years; with each major SDK release, Plaid will stop officially supporting any previous SDK versions that are more than two years old.
 
-While these older versions are expected to continue to work without disruption, Plaid will not provide assistance with unsupported SDK versions. 
+While these older versions are expected to continue to work without disruption, Plaid will not provide assistance with unsupported SDK versions.
 
 # Migration Guide
+
+### Changes from SDK 5.x to 6.0
+
+6.0 replaces the handler-based API (`Plaid.create` / `PlaidHandler` / `FastOpenPlaidLink`) with a
+session-based one: create a typed session per flow and open it through `OpenPlaidLink`. It also adds
+Layer, Headless, and Embedded sessions and raises minSdk to 26. See the full
+[v6 migration guide](./v6-migration-guide.md) for before/after code and the complete list of breaking
+changes.
 
 ### Changes from SDK 4.x to 5.0
 
@@ -120,9 +128,4 @@ SOFTWARE.
 [link-android-docs]: https://plaid.com/docs/link/android/
 [plaid-signup]: https://dashboard.plaid.com/signup?email=
 [plaid-dashboard-api]: https://dashboard.plaid.com/team/api
-[plaid-dashboard-keys]: https://dashboard.plaid.com/team/keys
 [changelog]: https://github.com/plaid/plaid-link-android/releases
-[get-link-token-kotlin]: app/src/main/java/com/plaid/linksample/MainActivity.kt
-[get-link-token-java]: app/src/main/java/com/plaid/linksample/MainActivityJava.java
-[npm-installation]: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
-[link-quickstart]: https://plaid.com/docs/quickstart/
