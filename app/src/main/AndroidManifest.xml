@@ -4,47 +4,29 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <uses-permission android:name="android.permission.CAMERA" />
-
   <application
     android:name=".LinkSampleApplication"
     android:allowBackup="true"
     android:icon="@drawable/plaid_icon"
     android:label="@string/app_name"
     android:supportsRtl="true"
-    android:theme="@style/AppTheme"
-    android:usesCleartextTraffic="true">   <!-- `usesCleartextTraffic` is only to allow http traffic to localhost. Do not use this for production apps.-->
+    android:theme="@style/AppTheme">
     <activity
       android:name=".MainActivity"
       android:exported="true"
-      android:label="@string/title_activity_main"
+      android:label="@string/app_name"
       android:theme="@style/AppTheme">
       <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
         <action android:name="android.intent.action.MAIN" />
-
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
 
-    <activity
-      android:name=".MainActivityJava"
-      android:exported="true"
-      android:label="@string/title_activity_main_java"
-      android:theme="@style/AppTheme" />
-
-    <activity
-      android:name=".MainActivityStartActivityForResult"
-      android:exported="true"
-      android:label="@string/title_activity_main_activity_result_contract"
-      android:theme="@style/AppTheme" />
-
-    <activity
-      android:name=".MainActivityStartActivityForResultJava"
-      android:exported="true"
-      android:label="@string/title_activity_main_activity_result_contract_java"
-      android:theme="@style/AppTheme" />
-
+    <!-- One Activity per flow, so each can register its own result launcher in onCreate. -->
+    <activity android:name=".StandardLinkActivity" android:exported="false" android:theme="@style/AppTheme" />
+    <activity android:name=".HeadlessActivity" android:exported="false" android:theme="@style/AppTheme" />
+    <activity android:name=".LayerActivity" android:exported="false" android:theme="@style/AppTheme" />
+    <activity android:name=".EmbeddedActivity" android:exported="false" android:theme="@style/AppTheme" />
   </application>
 
 </manifest>
