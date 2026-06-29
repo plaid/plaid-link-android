@@ -22,12 +22,8 @@ import com.plaid.linksample.ui.theme.LinkSampleTheme
 private const val TAG = "PlaidLinkSample"
 
 /**
- * Standard Link. The [OpenPlaidLink] contract is registered as a field — before the Activity is
- * STARTED — so a result delivered after process death (e.g. returning from an OAuth redirect, or
- * with "Don't keep activities" on) is re-delivered to this recreated Activity instead of dropped.
- *
- * The Link event listener is registered for the Activity's lifetime (onCreate to onDestroy), so it
- * stays active while Link is in the foreground; each event name is logged.
+ * Standard Link. Registers the [OpenPlaidLink] launcher as a field so a result returned after
+ * process death during OAuth is re-delivered, not dropped.
  */
 class StandardLinkActivity : ComponentActivity() {
   private var result by mutableStateOf<LinkResult?>(null)

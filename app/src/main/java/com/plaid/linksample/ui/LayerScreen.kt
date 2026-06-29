@@ -22,10 +22,10 @@ import com.plaid.linksample.ui.components.LabeledTextField
 import com.plaid.linksample.ui.components.LinkResultCard
 
 /**
- * Layer: enter a phone number and start the flow. Layer readiness is not an `onLoad` callback — it
+ * Layer: enter a phone number and start the flow. Layer readiness is not an `onLoad` callback; it
  * arrives as the `LAYER_READY` event, which is the cue to open. The host Activity owns the event
- * listener and the [com.plaid.link.PlaidLayerSession], so it opens on `LAYER_READY` and reports
- * [layerNotAvailable] back here; on that fallback, submit a date of birth instead.
+ * listener and the [com.plaid.link.PlaidLayerSession], opens on `LAYER_READY`, and on `LAYER_NOT_AVAILABLE` falls
+ * back to submitting a date of birth.
  */
 @Composable
 fun LayerScreen(

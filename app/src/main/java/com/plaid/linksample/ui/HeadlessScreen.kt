@@ -24,13 +24,9 @@ import com.plaid.linksample.ui.components.LabeledTextField
 import com.plaid.linksample.ui.components.LinkResultCard
 
 /**
- * Headless OAuth: created with `createPlaidHeadlessSession` and opened through the host Activity's
- * `OpenPlaidLink` launcher (via [onOpen]) — there is no `start()`. It runs an external-browser OAuth
- * handoff with no in-app WebView, so the host is always backgrounded and may be recreated; the
- * Activity-owned launcher registration is what lets the result survive that and arrive in [result].
- *
- * The token must resolve server-side to headless OAuth (e.g. an EU payment_initiation token with
- * `eu_config.headless`); a standard token fails fast with `SESSION_TYPE_MISMATCH`.
+ * Headless OAuth. Builds the session with `createPlaidHeadlessSession`, then asks the host Activity
+ * to launch it (the Activity owns the `OpenPlaidLink` launcher). Needs a token that resolves to
+ * headless OAuth server-side, or it fails with `SESSION_TYPE_MISMATCH`.
  */
 @Composable
 fun HeadlessScreen(

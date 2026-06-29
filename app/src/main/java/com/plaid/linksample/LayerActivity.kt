@@ -26,11 +26,9 @@ import com.plaid.linksample.ui.theme.LinkSampleTheme
 private const val TAG = "PlaidLinkSample"
 
 /**
- * Layer. The Link event listener is the flow's control channel, not just logging: `LAYER_READY` is
- * the cue to open and `LAYER_NOT_AVAILABLE` triggers the date-of-birth fallback. Because the
- * listener drives the open, the Activity owns the [PlaidLayerSession] and launches it through the
- * [OpenPlaidLink] contract — registered as a field, before STARTED, so a result returning after
- * process death is re-delivered to [result] rather than dropped.
+ * Layer. The Link event listener drives the flow: `LAYER_READY` is the cue to open and
+ * `LAYER_NOT_AVAILABLE` triggers the date-of-birth fallback. Because the open is event-driven, the
+ * Activity owns the [PlaidLayerSession] and launches it through the field-registered [OpenPlaidLink].
  */
 class LayerActivity : ComponentActivity() {
   private var result by mutableStateOf<LinkResult?>(null)

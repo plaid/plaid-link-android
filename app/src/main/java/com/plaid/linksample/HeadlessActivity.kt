@@ -22,12 +22,8 @@ import com.plaid.linksample.ui.theme.LinkSampleTheme
 private const val TAG = "PlaidLinkSample"
 
 /**
- * Headless OAuth. This flow always hands off to an external browser, so the host is guaranteed to
- * be backgrounded and may be recreated. Registering [OpenPlaidLink] as a field — before the
- * Activity is STARTED — is what lets the result survive that and be re-delivered to [result] here.
- *
- * The Link event listener is registered for the Activity's lifetime (onCreate to onDestroy); each
- * event name is logged.
+ * Headless OAuth. The flow always hands off to an external browser, so the host may be recreated;
+ * registering the [OpenPlaidLink] launcher as a field re-delivers the result afterward.
  */
 class HeadlessActivity : ComponentActivity() {
   private var result by mutableStateOf<LinkResult?>(null)

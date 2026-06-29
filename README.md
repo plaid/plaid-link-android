@@ -29,7 +29,7 @@ A standard `transactions` token works for **Standard Link** and **Embedded**. **
 **Layer** need product-specific tokens (see the note on each screen).
 
 ## 3. Run the sample application
-1. 🚀
+1. Open the project in Android Studio and run the `app` configuration on a device or emulator (API 26+).
 
 # Features
 - Integrating the SDK: `build.gradle` setup, `link_token` configuration, and session creation
