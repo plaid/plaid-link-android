@@ -6,12 +6,11 @@ through that result; events arrive through a single global listener.
 
 **Quick links:** [Standard Link](#standard-link) · [Layer](#layer) · [Headless](#headless) · [Embedded](#embedded) · [Breaking changes](#breaking-changes)
 
-## Why upgrade
+## What's new in 6.0.0
 
-- A Kotlin-first session API with one create-and-open pattern across every flow.
-- `onLoad` readiness so you can preload a session and enable your "Connect" button when it's ready.
-- First-class Layer, Headless, and Embedded sessions.
-- `Plaid.parseResult(...)` is public, so Activity-based apps and wrappers can parse results directly.
+- **Smaller SDK footprint:** the SDK AAR is ~74% smaller (≈4.5 MB → 1.2 MB), cutting your app's download and install size.
+- **Enhanced debugging & reliability:** improved internal logging makes session failures easier to diagnose, and `LinkEvent` delivery is more reliable, keeping your analytics and funnel tracking accurate.
+- **Know exactly when Link is ready:** the `onLoad` callback lets you pre-initialize a session in the background and reveal your "Connect" button only once Link has fully loaded, eliminating jarring loading indicators.
 
 ## Overview
 
@@ -92,9 +91,8 @@ Plaid.setLinkEventListener { event ->
 
 ## Headless
 
-Headless runs an external-browser OAuth flow with no WebView. There is **no `start()`** — create the
-session and launch it like any other. The token must resolve server-side to headless OAuth (e.g. an
-EU `payment_initiation` token with `eu_config.headless`).
+Headless runs an external-browser OAuth flow with no SDK-provided UI. The token must resolve
+server-side to headless OAuth (e.g. an EU `payment_initiation` token with `eu_config.headless`).
 
 ```kotlin
 val session = Plaid.createPlaidHeadlessSession(
@@ -125,7 +123,7 @@ instead of launching it.
 
 ## Breaking changes
 
-- **Requirements:** minSdk 21 → **26**, compileSdk **36**, Kotlin **2.x**, Java **11** source/target compatibility.
+- **Requirements:** minSdk 21 → **26**, compileSdk **36**, Kotlin **2.x**, Java **11+** source/target compatibility (the example app uses Java **17**).
 - `Plaid.create` / `PlaidHandler` / `FastOpenPlaidLink` removed → `createPlaid*Session` /
   `PlaidSession` / `OpenPlaidLink` (contract input retyped to `PlaidSession`).
 - `LinkResultHandler` removed → `Plaid.parseResult(requestCode, resultCode, data)`.

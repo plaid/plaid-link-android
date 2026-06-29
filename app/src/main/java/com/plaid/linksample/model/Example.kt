@@ -15,7 +15,7 @@ enum class Example(
   ),
   HEADLESS(
     title = "Headless",
-    description = "Run an external-browser OAuth flow with no in-app WebView.",
+    description = "Run an external-browser OAuth flow with no SDK-provided UI.",
   ),
   LAYER(
     title = "Layer",

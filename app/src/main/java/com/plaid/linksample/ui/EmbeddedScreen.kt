@@ -33,12 +33,12 @@ import com.plaid.linksample.ui.components.LabeledTextField
 import com.plaid.linksample.ui.components.LinkResultCard
 
 /**
- * Embedded Institution Search: `createPlaidEmbeddedLinkView` returns an inline [View] hosted here
- * via [AndroidView]. Picking an institution hands off to full Link, which the SDK launches through
- * the supplied [openLink] launcher — its result is the [continuationResult] shown below.
+ * Embedded Institution Search: `createPlaidEmbeddedLinkView` returns an inline [View] hosted here via
+ * [AndroidView]. Picking an institution hands off to full Link, which the SDK launches through the
+ * supplied `OpenPlaidLink` launcher; that becomes the continuation result shown below.
  *
  * Exits of the inline view itself (before any handoff) arrive on the required `onEmbeddedViewExit`
- * callback, kept separate from the continuation result. The host chooses the view's size; 360.dp
+ * callback, kept separate from the continuation result. The host chooses the view's size; 360dp
  * here is arbitrary.
  */
 @Composable

@@ -22,8 +22,7 @@
       </intent-filter>
     </activity>
 
-    <!-- One Activity per flow: each registers its own result launcher in onCreate, so a result
-         returning after process death (e.g. an OAuth redirect) is re-delivered, not dropped. -->
+    <!-- One Activity per flow, so each can register its own result launcher in onCreate. -->
     <activity android:name=".StandardLinkActivity" android:exported="false" android:theme="@style/AppTheme" />
     <activity android:name=".HeadlessActivity" android:exported="false" android:theme="@style/AppTheme" />
     <activity android:name=".LayerActivity" android:exported="false" android:theme="@style/AppTheme" />

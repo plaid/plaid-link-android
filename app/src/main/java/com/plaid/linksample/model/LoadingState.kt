@@ -4,7 +4,7 @@
 
 package com.plaid.linksample.model
 
-/** Preload status of a Link session: idle, loading, or ready ([onLoad] fired). */
+/** Preload status of a Link session; Ready means `onLoad` has fired. */
 sealed interface LoadingState {
   data object Idle : LoadingState
 

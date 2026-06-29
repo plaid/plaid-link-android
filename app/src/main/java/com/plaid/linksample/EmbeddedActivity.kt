@@ -23,12 +23,9 @@ private const val TAG = "PlaidLinkSample"
 
 /**
  * Embedded institution search. Selecting an institution hands off to full Link, which the SDK
- * launches through the [OpenPlaidLink] launcher passed into `createPlaidEmbeddedLinkView`. That
- * handoff can route through OAuth, so the launcher is registered as a field — before the Activity
- * is STARTED — so the continuation result survives process death and is re-delivered here.
- *
- * The Link event listener is registered for the Activity's lifetime (onCreate to onDestroy); each
- * event name is logged.
+ * launches through the [OpenPlaidLink] launcher passed into `createPlaidEmbeddedLinkView`. Because
+ * that handoff can route through OAuth, the launcher is field-registered so the continuation result
+ * is re-delivered here.
  */
 class EmbeddedActivity : ComponentActivity() {
   private var continuationResult by mutableStateOf<LinkResult?>(null)

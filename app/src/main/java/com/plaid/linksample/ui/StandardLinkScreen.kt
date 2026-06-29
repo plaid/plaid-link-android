@@ -30,10 +30,8 @@ import com.plaid.linksample.ui.components.LinkResultCard
 
 /**
  * Standard Link: paste a token, preload the [PlaidLinkSession], then open it. "Open" unlocks once
- * `onLoad` fires. A session is single-use, so it is retired when a terminal result arrives.
- *
- * Opened through the host Activity's `OpenPlaidLink` launcher (via [onOpen]); the result comes back
- * to the Activity and is passed in via [result].
+ * `onLoad` fires, and the host Activity opens the session through its `OpenPlaidLink` launcher. A
+ * session opens once, so after a result it's discarded and Prepare builds a fresh one.
  */
 @Composable
 fun StandardLinkScreen(
@@ -48,8 +46,7 @@ fun StandardLinkScreen(
   var loadingState by remember { mutableStateOf<LoadingState>(LoadingState.Idle) }
   var session by remember { mutableStateOf<PlaidLinkSession?>(null) }
 
-  // A terminal result is delivered to the host Activity and passed in here.
-  // A session is single-use, so retire it once a result arrives.
+  // A spent session can't be reopened: drop it on a result and reset to Idle for the next Prepare.
   LaunchedEffect(result) {
     if (result != null) {
       session = null

@@ -13,9 +13,8 @@ import com.plaid.linksample.ui.ExampleListScreen
 import com.plaid.linksample.ui.theme.LinkSampleTheme
 
 /**
- * Landing screen. Each flow runs in its own Activity so it can register its own result launcher in
- * onCreate — the registration that lets a result survive process death during an OAuth handoff.
- * Tapping a flow starts its Activity.
+ * Landing screen. Lists the flows; tapping one starts its Activity. Each flow runs in its own
+ * Activity so it can register its own result launcher (see the per-flow Activities).
  */
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
