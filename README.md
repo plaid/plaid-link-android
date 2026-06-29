@@ -92,7 +92,7 @@ If your integration is using public key authentication, it's essential to migrat
 #### 2. Open Options Configuration
 **BREAKING**: Removed `extraParams(extraParams: Map<String, String>)` setter method from  `LinkTokenConfiguration#Builder`.
 
-If your integration relies on `extraParams`, you must now configure these parameters while creating your [Link Tokens](https://plaid.com/docs/api/tokens/). Update your implementation accordingly.
+If your integration relies on `extraParams`, you must now configure these parameters while creating your [Link Tokens](https://plaid.com/docs/api/link/). Update your implementation accordingly.
 
 #### 3. Upgrade to Kotlin 1.8
 The Link Android SDK version of Kotlin has been upgraded to 1.8 and may need to be updated in your project.
