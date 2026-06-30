@@ -3,19 +3,13 @@ This sample app shows how the Link Android SDK integrates with your own app. It'
 Compose and demonstrates four Link flows — Standard Link, Headless, Layer, and Embedded — each on its
 own screen. Check out [the benefits](./docs/sdk-vs-webview-comparison.md) of using the SDK.
 
-
-<p align="center">
-  <img src="docs/link_demo.gif" loading="lazy" alt="Link demo gif" height="512" />
-</p>
-
 > Detailed instructions on how to integrate with Plaid Link for Android can be found in our [main documentation][link-android-docs].
 > Upgrading from 5.x? See the [v6 migration guide](./v6-migration-guide.md).
-
 
 # Getting Started
 To run the sample app, you'll need a Plaid account. You can create one on [our website][plaid-signup].
 
-## 1. Register your app id
+## 1. Register your app's package name
 1. Log into your [Plaid Dashboard][plaid-dashboard-api] at the API page
 2. Next to "Allowed Android package names" click "Configure" then "Add New Android Package Name"
 3. Enter the sample app package name: `com.plaid.linksample`
