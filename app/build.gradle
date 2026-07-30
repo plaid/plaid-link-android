@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.plaid.linksample"
-        minSdkVersion 26
+        minSdkVersion 25
         targetSdkVersion 36
         versionCode 1
         versionName "1.0"
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation "com.plaid.link:sdk-core:6.1.0"
+    implementation "com.plaid.link:sdk-core:6.2.0"
 
     implementation platform("androidx.compose:compose-bom:2026.02.01")
     implementation "androidx.compose.ui:ui"
