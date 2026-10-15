@@ -23,7 +23,7 @@ A standard `transactions` token works for **Standard Link** and **Embedded**. **
 **Layer** need product-specific tokens (see the note on each screen).
 
 ## 3. Run the sample application
-1. Open the project in Android Studio and run the `app` configuration on a device or emulator (API 26+).
+1. Open the project in Android Studio and run the `app` configuration on a device or emulator (API 25+).
 
 # Features
 - Integrating the SDK: `build.gradle` setup, `link_token` configuration, and session creation
@@ -63,7 +63,7 @@ While these older versions are expected to continue to work without disruption, 
 
 6.0 replaces the handler-based API (`Plaid.create` / `PlaidHandler` / `FastOpenPlaidLink`) with a
 session-based one: create a typed session per flow and open it through `OpenPlaidLink`. It also adds
-Layer, Headless, and Embedded sessions and raises minSdk to 26. See the full
+Layer, Headless, and Embedded sessions and raises minSdk to 26 (lowered to 25 in 6.2.0). See the full
 [v6 migration guide](./v6-migration-guide.md) for before/after code and the complete list of breaking
 changes.
 
