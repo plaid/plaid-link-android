@@ -123,7 +123,7 @@ instead of launching it.
 
 ## Breaking changes
 
-- **Requirements:** minSdk 21 → **26**, compileSdk **36**, Kotlin **2.x**, Java **11+** source/target compatibility (the example app uses Java **17**).
+- **Requirements:** minSdk 21 → **26** (lowered to **25** in 6.2.0), compileSdk **36**, Kotlin **2.x**, Java **11+** source/target compatibility (the example app uses Java **17**).
 - `Plaid.create` / `PlaidHandler` / `FastOpenPlaidLink` removed → `createPlaid*Session` /
   `PlaidSession` / `OpenPlaidLink` (contract input retyped to `PlaidSession`).
 - `LinkResultHandler` removed → `Plaid.parseResult(requestCode, resultCode, data)`.
